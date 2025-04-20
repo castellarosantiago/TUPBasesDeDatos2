@@ -157,9 +157,16 @@ CREATE INDEX idx_categoria ON productos(categoria);
 
 -- Ejecutar la misma consulta con el índice creado
 EXPLAIN SELECT * FROM productos WHERE categoria = 'Electrónica';
-
--- Conclusión de ambas consultas. 
 ```
+
+**Captura con el detalle del explain y la confirmación del uso del index para la búsqueda** 
+
+![Uso del index en la búsqueda](img/index-db.jpeg)
+
+**Conclusión de ambas consultas:**
+
+En primer lugar, la columna type de la primera consulta indica que se trata de un `ALL` (full table scan), es decir una revisión completa de la tabla. En cambio, en la segúnda consulta, ese parámetro pasa a ser `ref`, es decir, una búsqueda por índice. Por otro lado, la columna `posible_keys` y `key` marca el uso de `idx_categoría`, diferente al contenido NULL de la primera consulta. 
+Finalmente, en la columna row se puede observar la estimación de filas leídas, donde vemos un marcado descenso en la segunda consulta, pasando de 99.671 filas a 23.154 filas.
 
 ---
 
@@ -168,24 +175,44 @@ EXPLAIN SELECT * FROM productos WHERE categoria = 'Electrónica';
 **Enunciado:**  
 Diseñar una consulta que filtre por múltiples campos. Crear diferentes índices y medir cuál ofrece mejor rendimiento.
 
+### Índices Simples
+
 ```sql
 CREATE INDEX idx_precio ON productos(precio);
 CREATE INDEX idx_categoria ON productos(categoria); -- Reutilizamos el del punto anterior
-
--- Consulta a analizar
-EXPLAIN SELECT * FROM productos WHERE precio > '10000' AND categoria = 'Electrónica';
-
--- Índices de Múltiples Columnas
-CREATE INDEX idx_precio_categoria ON productos(precio, categoria);
-
--- Consulta a analizar
-EXPLAIN SELECT * FROM productos WHERE categoria = 'Electrónica' AND precio > '10000';
-
--- Conclusión de ambas consultas.
--- CAPTURAS DE PANTALLA DE LOS EXPLAIN Y CONCLUSIONES
 ```
 
+**Consulta a analizar:**
+
+```sql
+EXPLAIN SELECT * FROM productos WHERE precio > '10000' AND categoria = 'Electrónica';
+```
+
+![Uso del index de múltiples columnas en la búsqueda](img/combinacion-index.jpeg)
+
 ---
+
+### Índices de Múltiples Columnas
+
+```sql
+CREATE INDEX idx_precio_categoria ON productos(precio, categoria);
+```
+
+**Consulta a analizar:**
+
+```sql
+EXPLAIN SELECT * FROM productos WHERE categoria = 'Electrónica' AND precio > '10000';
+```
+
+![Uso del index de múltiples columnas en la búsqueda](img/indices-multiples.jpeg)
+
+---
+
+### Conclusión de ambas consultas
+
+En la primera consulta, al usar índices simples, el motor de base de datos puede combinar los índices `idx_precio` y `idx_categoria` para optimizar la búsqueda. Sin embargo, esto puede no ser tan eficiente como un índice compuesto.
+
+En la segunda consulta, el índice compuesto `idx_precio_categoria` permite al motor de base de datos realizar una búsqueda más eficiente, ya que está diseñado específicamente para filtrar por ambas columnas en conjunto. Esto reduce significativamente el número de filas examinadas y mejora el rendimiento de la consulta.
 
 ## Ejercicio 6: Vistas
 
