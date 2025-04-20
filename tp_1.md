@@ -192,14 +192,64 @@ EXPLAIN SELECT * FROM productos WHERE categoria = 'Electrónica' AND precio > '1
 **Enunciado:**  
 Crear una vista que resuma las ventas mensuales por producto. Luego, usarla en una consulta que devuelva los 5 productos más vendidos.
 
+
+```sql
+CREATE VIEW VentasMensuales AS
+SELECT producto_id, MONTH(fecha) AS mes, SUM(cantidad) AS total_vendido
+FROM Ventas
+GROUP BY producto_id, MONTH(fecha);
+```
+
+**Consulta sobre la vista:**
+```sql
+SELECT producto_id, SUM(total_vendido) AS total
+FROM VentasMensuales
+GROUP BY producto_id
+ORDER BY total DESC
+LIMIT 5;
+```
+
 ---
 
 ## Ejercicio 7: Gestión de Permisos
 
 **Enunciado:**  
-Crear un usuario analista que solo pueda hacer SELECT en ciertas tablas. Intentar insertar desde ese usuario y explicar el resultado.
+Crear un usuario analista que solo pueda realizar consultas (`SELECT`) en ciertas tablas. Intentar insertar datos desde ese usuario y explicar el resultado.
 
----
+### Creación del Usuario y Asignación de Permisos
+
+```sql
+CREATE USER 'analista'@'localhost' IDENTIFIED BY 'clave_segura';
+GRANT SELECT ON Ventas TO 'analista'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+### Intento de Inserción
+
+```sql
+INSERT INTO Ventas (producto, fecha, cantidad) VALUES ('Monitor', '2023-10-01', 5);
+```
+
+### Resultado del Error
+
+```
+ERROR 1142 (42000): INSERT command denied to user 'analista'@'localhost' for table 'Ventas'
+```
+
+El error indica que el usuario `analista` no tiene los permisos necesarios para ejecutar un comando `INSERT` en la tabla `Ventas`.
+
+### Explicación del Error
+
+- **Código de Error 1142 (42000):** Este código específico de MySQL señala un problema de permisos ya que el usuario `analista` solo tiene permisos para realizar consultas (`SELECT`) en la tabla `Ventas`, pero no puede realizar operaciones de escritura como `INSERT`.
+
+### Posible solución
+
+Si se requiere que el usuario `analista` pueda realizar operaciones adicionales, un administrador de la base de datos con privilegios suficientes deberá otorgar los permisos necesarios. Por ejemplo:
+
+```sql
+GRANT INSERT ON Ventas TO 'analista'@'localhost';
+FLUSH PRIVILEGES;
+```
 
 ## Ejercicio 8: Seguridad y Auditoría
 
@@ -213,3 +263,21 @@ Simular una auditoría simple con triggers que registren toda modificación en u
 **Enunciado:**  
 Documentar paso a paso cómo hacer un backup completo en MySQL o PostgreSQL y cómo restaurarlo.  
 Simular una pérdida de datos y su posterior recuperación.
+
+#### **MySQL - Backup:**
+```bash
+mysqldump -u root -p mi_base_de_datos > backup_mi_base_de_datos.sql
+```
+
+#### **Simular pérdida y recuperación:**
+```sql
+DROP DATABASE mi_base_de_datos;
+```
+Luego se recupera con el backup.
+
+#### **MySQL - Restore:**
+```bash
+mysql -u root -p mi_base_de_datos < backup_mi_base_de_datos.sql
+```
+
+---
