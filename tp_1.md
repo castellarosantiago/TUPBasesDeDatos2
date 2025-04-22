@@ -219,8 +219,10 @@ En la segunda consulta, el índice compuesto `idx_precio_categoria` permite al m
 **Enunciado:**  
 Crear una vista que resuma las ventas mensuales por producto. Luego, usarla en una consulta que devuelva los 5 productos más vendidos.
 
-
 ```sql
+-- Usando el archivo original ecommerce_productos.sql normalizamos la tabla con el archivo ecommerce_normalizado.sql
+-- Luego creamos la tabla ventas con el archivo ecommerce_tabla_ventas
+
 CREATE VIEW VentasMensuales AS
 SELECT producto_id, MONTH(fecha) AS mes, SUM(cantidad) AS total_vendido
 FROM Ventas
@@ -229,33 +231,37 @@ GROUP BY producto_id, MONTH(fecha);
 
 **Consulta sobre la vista:**
 ```sql
-SELECT producto_id, SUM(total_vendido) AS total
+SELECT producto_id, SUM(total_vendido) AS total_producto_mas_vendido
 FROM VentasMensuales
 GROUP BY producto_id
-ORDER BY total DESC
+ORDER BY total_producto_mas_vendido DESC
 LIMIT 5;
 ```
+
+![Create View de totales de productos más vendidos](img/ej6.png)
 
 ---
 
 ## Ejercicio 7: Gestión de Permisos
 
 **Enunciado:**  
-Crear un usuario analista que solo pueda realizar consultas (`SELECT`) en ciertas tablas. Intentar insertar datos desde ese usuario y explicar el resultado.
+Crear un usuario `analista` que solo pueda realizar consultas (`SELECT`) en ciertas tablas. Intentar insertar datos desde ese usuario y explicar el resultado.
 
 ### Creación del Usuario y Asignación de Permisos
 
 ```sql
 CREATE USER 'analista'@'localhost' IDENTIFIED BY 'clave_segura';
-GRANT SELECT ON Ventas TO 'analista'@'localhost';
+GRANT SELECT ON ecommerce.Ventas TO 'analista'@'localhost';
 FLUSH PRIVILEGES;
 ```
+![Captura de la terminal con error de permisos](img/ej7_1.png)
 
-### Intento de Inserción
+### Cambio de User en mysql e Intento de Inserción de Datos en Tabla
 
 ```sql
-INSERT INTO Ventas (producto, fecha, cantidad) VALUES ('Monitor', '2023-10-01', 5);
+INSERT INTO ecommerce.Ventas (producto_id, cantidad, fecha) VALUES (86394, 5, '2023-10-01');
 ```
+![Captura de la terminal con error de permisos](img/ej7_2.png)
 
 ### Resultado del Error
 
@@ -274,7 +280,7 @@ El error indica que el usuario `analista` no tiene los permisos necesarios para 
 Si se requiere que el usuario `analista` pueda realizar operaciones adicionales, un administrador de la base de datos con privilegios suficientes deberá otorgar los permisos necesarios. Por ejemplo:
 
 ```sql
-GRANT INSERT ON Ventas TO 'analista'@'localhost';
+GRANT INSERT ON ecommerce.Ventas TO 'analista'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -283,7 +289,73 @@ FLUSH PRIVILEGES;
 **Enunciado:**  
 Simular una auditoría simple con triggers que registren toda modificación en una tabla Clientes.
 
----
+### Creación de una tabla y su correspondiente tabla de auditoría
+
+```sql
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100),
+    email VARCHAR(100)
+);
+
+CREATE TABLE auditoria_clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    accion VARCHAR(10),
+    cliente_id INT,
+    datos_viejos JSON,
+    datos_nuevos JSON,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+### Creación del trigger para registrar las modificaciones en la tabla
+
+```sql
+DELIMITER $$
+
+CREATE TRIGGER t_auditoria_clientes
+AFTER UPDATE ON clientes
+FOR EACH ROW
+BEGIN
+    INSERT INTO auditoria_clientes (
+        accion,
+        cliente_id,
+        datos_viejos,
+        datos_nuevos
+    ) VALUES (
+        'UPDATE',
+        OLD.id,
+        JSON_OBJECT('nombre', OLD.nombre, 'email', OLD.email),
+        JSON_OBJECT('nombre', NEW.nombre, 'email', NEW.email)
+    );
+END$$
+
+DELIMITER ;
+```
+
+### Inserción de datos en la tabla y su respectiva consulta para verificado de los mismos:
+
+```sql
+INSERT INTO clientes (nombre, email) VALUES ('Marty McFly', 'delorean@outatime.com'),('Emmet Brown', 'condensador@deflujos.com');
+
+SELECT * FROM clientes;
+```
+![Captura de consulta de datos cargados](img/ej8_1.png)
+
+### Actualización de datos en la tabla y su respectiva consulta:
+
+```sql
+UPDATE clientes SET nombre = 'Biff Tannen' WHERE id = 1;
+
+SELECT * FROM clientes;
+```
+![Captura de consulta de datos actualizados](img/eej8_2.png)
+
+### Consulta de la tabla de auditoría para ver si los triggers funcionaron y se registraron los datos antiguos y los actualizados:
+
+```sql
+SELECT * FROM auditoria_clientes;
+```
+![Captura de consulta del trigger de auditoría](img/ej8_3.png)
 
 ## Ejercicio 9: Backup y Restore
 
@@ -291,20 +363,68 @@ Simular una auditoría simple con triggers que registren toda modificación en u
 Documentar paso a paso cómo hacer un backup completo en MySQL o PostgreSQL y cómo restaurarlo.  
 Simular una pérdida de datos y su posterior recuperación.
 
-#### **MySQL - Backup:**
+#### **MySQL - BACKUP:**
+Primero se hizo un backup de las tablas en la base de datos ecommerce directamente en consola:
+
 ```bash
-mysqldump -u root -p mi_base_de_datos > backup_mi_base_de_datos.sql
+sudo mysqldump -u root ecommerce > ecommerce-2025-04-22_05-32-57.sql
 ```
+
+![Backup inicial sin Cron](img/ej9_0.png)
+
+#### **Backup automático con Cron por medio de Script en Bash:**
+Se creó un script en bash para poder ejecutar el backup como comando a través de **Cron**.
+
+```bash
+#!/bin/bash
+
+# Configuraciones
+USER="usuario"
+PASSWORD="clave"
+DATABASE="basededatos"
+BACKUP_DIR="/home/usuario/backups/mysql"
+DATE=$(date +%F_%H-%M-%S)
+FILENAME="$DATABASE-$DATE.sql"
+
+# Crear directorio si no existe
+mkdir -p "$BACKUP_DIR"
+
+# Comando de mysql
+mysqldump -u $USER -p$PASSWORD $DATABASE > "$BACKUP_DIR/$FILENAME"
+```
+![Creacion backup sript en nano](ej9_1.png)
+
+![Backup sript](img/ej9_2.png)
+
+Se hizo también una consulta de la tabla previa al backup automático:
+![Tabla para backup](img/ej9_3.png) 
+
+#### **Activación del Cron:**
+Ahora se procede a configurar la activación del Cron mediante crontab para que se realice el respaldo automático de las tablas. Se configuró solo unos minutos adelantado y luego del tiempo fijado para el respaldo automático se precedió a verificar si efectivamente se hizo el mismo.
+![Activacion crontab](img/ej9_4.png)
+
+![Backup hecho con Cron](img/ej9_5.png)
 
 #### **Simular pérdida y recuperación:**
-```sql
-DROP DATABASE mi_base_de_datos;
-```
-Luego se recupera con el backup.
+Se realiza una nueva consulta de tabla pero simulando un drop (pérdida) de la columna `fecha_creacion`
 
-#### **MySQL - Restore:**
-```bash
-mysql -u root -p mi_base_de_datos < backup_mi_base_de_datos.sql
+```sql
+ALTER TABLE productos DROP COLUMN fecha_creacion;
 ```
+
+![Drop de fecha_creacion](img/ej9_6.png)
+
+
+#### **MySQL - RESTORE:**
+Ahora se procede a la recuperación de la tabla utilizando el backup hecho por Cron.
+
+```bash
+mysql -u root ecommerce < ecommerce-2025-04-22_04-08-01.sql
+```
+
+![Recuperacion en bash](img/ej9_7.png)
+
+![Tabla recuperada](img/ej9_8.png)
+
 
 ---
