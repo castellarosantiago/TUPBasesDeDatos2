@@ -1,0 +1,56 @@
+use empresa;
+db.createCollection("empleados");
+db.empleados.insertMany([
+  { nombre: "Juan", edad: 30, puesto: "Ventas" },
+  { nombre: "Ana", edad: 25, puesto: "Marketing" },
+  { nombre: "Luis", edad: 35, puesto: "Recursos Humanos" },
+  { nombre: "Maria", edad: 28, puesto: "Desarrollo" },
+  { nombre: "Pedro", edad: 40, puesto: "Finanzas" },
+  { nombre: "Laura", edad: 32, puesto: "pasante" }
+]);
+
+// Consultar todos los empleados
+db.empleados.find({});
+
+// Actualizar edad de un empleado
+db.empleados.updateOne(
+  { nombre: "Juan" },
+  { $set: { edad: 31 } }
+);
+
+// Eliminar un empleado con puesto pasante
+db.empleados.deleteOne({
+  puesto: "pasante"
+})
+
+// Numeros de empleados entre 25 y 40 años
+db.empleados.find({
+  $and: [
+    { edad: { $gt: 25 } },
+    { edad: { $lt: 40 } },
+  ]
+});
+
+// MOSTRAR NOMBRES DE EMPLEADOS Y PUESTOS SIN EL _ID
+db.empleados.find({}, { _id: 0, nombre: 1, puesto: 1 });
+
+
+// Agregar un campo dirección a todos los empleados con un array de calle, ciudad y dirección
+db.empleados.updateMany(
+  {},
+  {
+    $set: {
+      direccion: {
+        calle: "",
+        ciudad: "",
+        dirección: ""
+      }
+    }
+  }
+);
+
+// Mostrar empleados con dirección
+db.empleados.find({})
+
+// Encontrar empleados mayores de 30 años
+db.empleados.find({ edad: { $gt: 30 } });
