@@ -348,7 +348,7 @@ UPDATE clientes SET nombre = 'Biff Tannen' WHERE id = 1;
 
 SELECT * FROM clientes;
 ```
-![Captura de consulta de datos actualizados](img/eej8_2.png)
+![Captura de consulta de datos actualizados](img/ej8_2.png)
 
 ### Consulta de la tabla de auditoría para ver si los triggers funcionaron y se registraron los datos antiguos y los actualizados:
 
