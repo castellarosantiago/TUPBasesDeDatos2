@@ -392,7 +392,7 @@ mkdir -p "$BACKUP_DIR"
 # Comando de mysql
 mysqldump -u $USER -p$PASSWORD $DATABASE > "$BACKUP_DIR/$FILENAME"
 ```
-![Creacion backup sript en nano](ej9_1.png)
+![Creacion backup sript en nano](img/ej9_1.png)
 
 ![Backup sript](img/ej9_2.png)
 
