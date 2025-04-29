@@ -94,7 +94,6 @@ db.createCollection("alumnos");
 db.createCollection("cursos");
 
 
-// FALTA EL PUNTO 7,8 9 Y 10
 
 // 7. Crear una colección alumnos y cursos. Luego insertar documentos donde los alumnos tengan una lista de id_curso referenciando a los cursos.
 
@@ -117,5 +116,6 @@ db.alumnos.insertMany([
   { nombre: "Pedro", edad: 24, id_curso: [2, 4, 3] },
 ]);
 
+// FALTA EL PUNTO 8 9 Y 10
 
 
