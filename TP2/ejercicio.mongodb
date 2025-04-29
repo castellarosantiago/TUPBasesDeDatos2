@@ -54,3 +54,45 @@ db.empleados.find({})
 
 // Encontrar empleados mayores de 30 años
 db.empleados.find({ edad: { $gt: 30 } });
+
+// Dada una colección ventas con campos: producto, cantidad y precio_unitario, caclcular el total de ventas por producto.
+db.createCollection("ventas");
+db.ventas.insertMany([
+  { producto: "Discos de Vinilo", cantidad: 10, precio_unitario: 80000 },
+  { producto: "Cassettes", cantidad: 20, precio_unitario: 15000 },
+  { producto: "CD's", cantidad: 5, precio_unitario: 20000 },
+  { producto: "Remeras", cantidad: 15, precio_unitario: 12000 },
+]);
+
+db.ventas.find({});
+
+db.ventas.aggregate([
+  {
+    $group: {
+      _id: "$producto",
+      total: { $sum: { $multiply: ["$cantidad", "$precio_unitario"] } }
+    }
+  }
+])
+
+// Crea un índice compuesto sobre la colección clientes, con los campos apellido y nombre. 
+db.createCollection("clientes");
+db.clientes.insertMany([
+  { nombre: "Juan", apellido: "Pérez" },
+  { nombre: "Ana", apellido: "Gómez" },
+  { nombre: "Luis", apellido: "Fernández" },
+  { nombre: "Maria", apellido: "López" },
+  { nombre: "Pedro", apellido: "Martínez" },
+  { nombre: "Laura", apellido: "Sánchez" }
+]);
+
+// Indice compuesto con apellido y nombre
+db.clientes.createIndex({ apellido: 1, nombre: 1 });
+
+// Crear una colección alumnos y cursos
+db.createCollection("alumnos");
+db.createCollection("cursos");
+
+
+// FALTA EL PUNTO 7,8 9 Y 10
+
