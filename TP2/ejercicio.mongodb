@@ -117,6 +117,7 @@ db.alumnos.insertMany([
 ]);
 
 // FALTA EL PUNTO 8 9
+//ejercicio 8: Uso de $lookup Realiza una agregación donde se combinen los datos de alumnos y cursos usando $lookup.
 
 
 // Ejercicio 10: Seguridad y backups. Muestra los pasos para crear
