@@ -128,7 +128,19 @@ db.alumnos.aggregate([
     }
   },
 ]);
-// FALTA EL PUNTO 9
+// Ejercicio 9
+
+/*
+Usar un Replica Set nos aporta alta disponibilidad y tolerancia a fallos, porque si un servidor falla, hay otro servidor que puede
+tomar el control y seguir funcionando. Es útil para aplicaciones críticas que no pueden permitirse tiempo de inactividad.
+Además permite la lectura en servidores secundarios por lo que los datos al estar siempre disponibles  mejoran el rendimiento y la escalabilidad de un sistema.
+
+El Sharding nos deja incorporar nodos adicionales a la base de datos para distribuir la carga de trabajo y mnejorar el rendimiento,
+esto se vuelca en una capacidad de almacenamiento y procesamiento mucho mayor a la hora de escalar un sistema.
+
+Al manejar una cantidad de datos muy grande y fragmentarla en varias bases de datos, es mas eficiente el procesamiento de esos datos, por esto el Sharding nos deja
+manejar un mayor volumen transacciones, consultas y actualizaciones.
+*/
 
 // Ejercicio 10: Seguridad y backups. Muestra los pasos para crear
 // un usuario con permisos de lectura y escritura y los comandos
