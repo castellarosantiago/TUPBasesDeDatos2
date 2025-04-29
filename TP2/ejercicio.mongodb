@@ -116,9 +116,19 @@ db.alumnos.insertMany([
   { nombre: "Pedro", edad: 24, id_curso: [2, 4, 3] },
 ]);
 
-// FALTA EL PUNTO 8 9
 //ejercicio 8: Uso de $lookup Realiza una agregación donde se combinen los datos de alumnos y cursos usando $lookup.
 
+db.alumnos.aggregate([
+  {
+    $lookup: {
+      from : "cursos",
+      localField: "id_curso",
+      foreignField: "_id",
+      as: "cursos_info"
+    }
+  },
+]);
+// FALTA EL PUNTO 9
 
 // Ejercicio 10: Seguridad y backups. Muestra los pasos para crear
 // un usuario con permisos de lectura y escritura y los comandos
