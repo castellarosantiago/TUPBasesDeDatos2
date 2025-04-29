@@ -1,3 +1,4 @@
+// Ejercicio 1
 use empresa;
 db.createCollection("empleados");
 db.empleados.insertMany([
@@ -23,6 +24,7 @@ db.empleados.deleteOne({
   puesto: "pasante"
 })
 
+// Ejercicio 2
 // Numeros de empleados entre 25 y 40 años
 db.empleados.find({
   $and: [
@@ -31,10 +33,11 @@ db.empleados.find({
   ]
 });
 
+// Ejercicio 3
 // MOSTRAR NOMBRES DE EMPLEADOS Y PUESTOS SIN EL _ID
 db.empleados.find({}, { _id: 0, nombre: 1, puesto: 1 });
 
-
+// Ejercicio 4
 // Agregar un campo dirección a todos los empleados con un array de calle, ciudad y dirección
 db.empleados.updateMany(
   {},
@@ -55,6 +58,7 @@ db.empleados.find({})
 // Encontrar empleados mayores de 30 años
 db.empleados.find({ edad: { $gt: 30 } });
 
+// Ejercicio 5
 // Dada una colección ventas con campos: producto, cantidad y precio_unitario, caclcular el total de ventas por producto.
 db.createCollection("ventas");
 db.ventas.insertMany([
@@ -75,6 +79,7 @@ db.ventas.aggregate([
   }
 ])
 
+// Ejercicio 6
 // Crea un índice compuesto sobre la colección clientes, con los campos apellido y nombre. 
 db.createCollection("clientes");
 db.clientes.insertMany([
@@ -92,7 +97,6 @@ db.clientes.createIndex({ apellido: 1, nombre: 1 });
 // Crear una colección alumnos y cursos
 db.createCollection("alumnos");
 db.createCollection("cursos");
-
 
 
 // 7. Crear una colección alumnos y cursos. Luego insertar documentos donde los alumnos tengan una lista de id_curso referenciando a los cursos.
@@ -128,6 +132,7 @@ db.alumnos.aggregate([
     }
   },
 ]);
+
 // Ejercicio 9
 
 /*
@@ -167,24 +172,26 @@ db.empleados.updateOne(
 db.grantRolesToUser("Marty", ["readWrite"]);
 
 // Backup de la base de datos
-mongodump -d empresa -o empresa_backup;
+
+mongodump -d=empresa -o empresa_backup
 // en empresa va el nombre de la base de datos y en empresa_backup va
 // el nombre del archivo del backup que se quiere hacer
 
-// Borro de la base de datos
+// Se borra la base de datos porque sino, no se puede hacer el backup
 db.dropDatabase();
 
-//Consulto la Base de Datos
+//Se consulta la Base de Datos para ver si efectivamente fue eliminada
 db.empleados.find({});
 
 // Restauración de la base de datos
-mongorestore -d empresa empresa_backup; 
-// en empresa va el nombre de la base de datos a restaurary en empresa_backup va
-// el nombre del archivo del backup que se quiere restaurar
-// Hay que aegurarse siempre que la base de datos este vacia antes
+mongorestore --db empresa ./empresa_backup/empresa 
+// en empresa va el nombre de la base de datos a restaurar y en empresa_backup va
+// el nombre de la carpeta con el archivo del backup que se quiere restaurar 
+// (empresa en este caso).
+// Hay que aegurarse siempre que la base de datos este vacía antes
 // de hacer la restauración.
 
-//Consulto la Base de Datos
+//Consulto la Base de Datos para ver si la restauración fue exitosa
 db.empleados.find({});
 
 
