@@ -1,0 +1,46 @@
+/ Ejercicio 10: Seguridad y backups. Muestra los pasos para crear
+// un usuario con permisos de lectura y escritura y los comandos
+// necesarios para hacer backup y restauración de una base de datos.
+
+// Creación del usuario
+db.createUser({
+  user: "Marty",
+  pwd: "mcfly",
+//   roles: ["readWrite"]  //con esto ya se le están dando los permisos de lectura escritura
+});
+
+// Cambio al usuario creado
+db.auth("Marty", "mcfly");
+
+//Intento hacer algo sin permisos
+db.empleados.find({});
+db.empleados.updateOne(
+    { nombre: "Juan" },
+    { $set: { edad: 31 } }
+  );
+
+// Asignación de permisos al usuario creado
+db.grantRolesToUser("Marty", ["readWrite"]);
+
+// Backup de la base de datos
+
+mongodump -d=empresa -o empresa_backup
+// en empresa va el nombre de la base de datos y en empresa_backup va
+// el nombre del archivo del backup que se quiere hacer
+
+// Se borra la base de datos porque sino, no se puede hacer el backup
+db.dropDatabase();
+
+//Se consulta la Base de Datos para ver si efectivamente fue eliminada
+db.empleados.find({});
+
+// Restauración de la base de datos
+mongorestore --db empresa ./empresa_backup/empresa 
+// en empresa va el nombre de la base de datos a restaurar y en empresa_backup va
+// el nombre de la carpeta con el archivo del backup que se quiere restaurar 
+// (empresa en este caso).
+// Hay que aegurarse siempre que la base de datos este vacía antes
+// de hacer la restauración.
+
+//Consulto la Base de Datos para ver si la restauración fue exitosa
+db.empleados.find({});

@@ -1,0 +1,8 @@
+// Ejercicio 2
+// Numeros de empleados entre 25 y 40 años
+db.empleados.find({
+    $and: [
+      { edad: { $gt: 25 } },
+      { edad: { $lt: 40 } },
+    ]
+  });

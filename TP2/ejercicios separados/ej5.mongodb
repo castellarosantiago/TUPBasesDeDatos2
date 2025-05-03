@@ -1,0 +1,20 @@
+// Ejercicio 5
+// Dada una colección ventas con campos: producto, cantidad y precio_unitario, caclcular el total de ventas por producto.
+db.createCollection("ventas");
+db.ventas.insertMany([
+  { producto: "Discos de Vinilo", cantidad: 10, precio_unitario: 80000 },
+  { producto: "Cassettes", cantidad: 20, precio_unitario: 15000 },
+  { producto: "CD's", cantidad: 5, precio_unitario: 20000 },
+  { producto: "Remeras", cantidad: 15, precio_unitario: 12000 },
+]);
+
+db.ventas.find({});
+
+db.ventas.aggregate([
+  {
+    $group: {
+      _id: "$producto",
+      total: { $sum: { $multiply: ["$cantidad", "$precio_unitario"] } }
+    }
+  }
+])

@@ -1,0 +1,25 @@
+// Ejercicio 1
+use empresa;
+db.createCollection("empleados");
+db.empleados.insertMany([
+  { nombre: "Juan", edad: 30, puesto: "Ventas" },
+  { nombre: "Ana", edad: 25, puesto: "Marketing" },
+  { nombre: "Luis", edad: 35, puesto: "Recursos Humanos" },
+  { nombre: "Maria", edad: 28, puesto: "Desarrollo" },
+  { nombre: "Pedro", edad: 40, puesto: "Finanzas" },
+  { nombre: "Laura", edad: 32, puesto: "pasante" }
+]);
+
+// Consultar todos los empleados
+db.empleados.find({});
+
+// Actualizar edad de un empleado
+db.empleados.updateOne(
+  { nombre: "Juan" },
+  { $set: { edad: 31 } }
+);
+
+// Eliminar un empleado con puesto pasante
+db.empleados.deleteOne({
+  puesto: "pasante"
+})
