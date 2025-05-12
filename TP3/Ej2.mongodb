@@ -1,3 +1,24 @@
 // Problema 2:
 // Crear un pipeline que obtenga las ventas totales por mes, indicando también 
 // el producto más vendido de cada mes.
+
+db.ventas.aggregate([
+    { $addFields: { 
+        mes: { $month: "$fecha" }, 
+        anio: { $year: "$fecha" } 
+    }},
+
+    { $group: {
+        _id: { mes: "$mes", anio: "$anio", producto_id: "$producto_id" },
+        total_ventas_producto: { $sum: "$cantidad" }
+    }},
+    {
+        $sort: {
+          total_ventas_producto: -1
+        }
+    },
+    {
+        $limit: 1
+    }
+
+])
