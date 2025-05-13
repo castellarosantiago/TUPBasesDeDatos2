@@ -1,0 +1,171 @@
+//Problema 1
+
+db.productos.aggregate([
+  { $match: { "valoraciones.1": { $exists: true } } },
+  {
+    $project: {
+      nombre: 1,
+      promedio: { $avg: "$valoraciones.puntuacion" },
+      total_valoraciones: { $size: "$valoraciones" },
+    },
+  },
+  { $sort: { promedio: -1 } },
+]);
+
+//Problema 2
+
+db.ventas.aggregate([
+  {
+    $group: {
+      _id: { mes: { $month: "$fecha" }, anio: { $year: "$fecha" } },
+      productos: { $push: "$productos" },
+    },
+  },
+  {
+    $unwind: "$productos",
+  },
+  {
+    $unwind: "$productos",
+  },
+  {
+    $group: {
+      _id: { mes: "$_id.mes", anio: "$_id.anio", producto: "$productos.id" },
+      cantidad: { $sum: "$productos.cantidad" },
+    },
+  },
+  {
+    $group: {
+      _id: { mes: "$_id.mes", anio: "$_id.anio" },
+      total_vendido: { $sum: "$cantidad" },
+      productos: {
+        $push: {
+          producto: "$_id.producto",
+          cantidad: "$cantidad",
+        },
+      },
+    },
+  },
+  {
+    $project: {
+      mes: "$_id.mes",
+      anio: "$_id.anio",
+      total_vendido: 1,
+      producto_mas_vendido: {
+        $arrayElemAt: [
+          {
+            $slice: [
+              { $sortArray: { input: "$productos", sortBy: { cantidad: -1 } } },
+              1,
+            ],
+          },
+          0,
+        ],
+      },
+    },
+  },
+  { $sort: { anio: 1, mes: 1 } },
+]);
+
+//Problema 3
+
+db.ventas.aggregate([
+  {
+    $unwind: "$productos",
+  },
+  {
+    $lookup: {
+      from: "productos",
+      localField: "productos.id_producto",
+      foreignField: "_id",
+      as: "info_producto",
+    },
+  },
+  {
+    $unwind: "$info_producto",
+  },
+  {
+    $addFields: {
+      subtotal: {
+        $multiply: ["$productos.cantidad", "$info_producto.precio"],
+      },
+    },
+  },
+  {
+    $group: {
+      _id: {
+        cliente: "$id_cliente",
+        producto: "$productos.id_producto",
+      },
+      total_comprado: { $sum: "$productos.cantidad" },
+      total_gastado_producto: { $sum: "$subtotal" },
+      nombre_producto: { $first: "$info_producto.nombre" },
+      categoria: { $first: "$info_producto.categoria" },
+      fechas: { $push: "$fecha" },
+    },
+  },
+  {
+    $group: {
+      _id: "$_id.cliente",
+      total_gastado: { $sum: "$total_gastado_producto" },
+      total_compras: { $sum: "$total_comprado" },
+      productos: {
+        $push: {
+          producto: "$nombre_producto",
+          cantidad: "$total_comprado",
+        },
+      },
+      categorias: {
+        $push: {
+          categoria: "$categoria",
+          gasto: "$total_gastado_producto",
+        },
+      },
+      fechas: { $push: "$fechas" },
+    },
+  },
+  {
+    $addFields: {
+      producto_favorito: {
+        $first: {
+          $slice: [
+            { $sortArray: { input: "$productos", sortBy: { cantidad: -1 } } },
+            1,
+          ],
+        },
+      },
+      categoria_preferida: {
+        $first: {
+          $slice: [
+            { $sortArray: { input: "$categorias", sortBy: { gasto: -1 } } },
+            1,
+          ],
+        },
+      },
+      fechas_planas: {
+        $reduce: {
+          input: "$fechas",
+          initialValue: [],
+          in: { $concatArrays: ["$$value", "$$this"] },
+        },
+      },
+    },
+  },
+  {
+    $addFields: {
+      primera_compra: { $min: "$fechas_planas" },
+      ultima_compra: { $max: "$fechas_planas" },
+    },
+  },
+  {
+    $project: {
+      _id: 0,
+      cliente: "$_id",
+      total_gastado: 1,
+      total_compras: 1,
+      producto_favorito: "$producto_favorito.producto",
+      categoria_preferida: "$categoria_preferida.categoria",
+      primera_compra: 1,
+      ultima_compra: 1,
+    },
+  },
+]);

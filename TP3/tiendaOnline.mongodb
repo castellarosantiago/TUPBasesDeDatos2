@@ -1,4 +1,4 @@
-use tiendaOnline;
+use(tiendaOnline);
 
 db.productos.insertMany([
     {
