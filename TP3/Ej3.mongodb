@@ -7,3 +7,84 @@
 // -Categoría preferida (donde más ha gastado)
 // -Fecha de primera y última compra
 
+
+// INFORME DEL CLIENTE
+// 1- Agrupar compras por cada cliente
+// 2- Sumar el total de compras que realizó cada cliente
+// 3- Filtrar el producto que más cantidad de compras tiene
+// 4- Ordenar por categorías y filtrar la que registra más gastos
+// 5- Extraer fecha de la primera y última compra
+
+db.ventas.aggregate([
+    {
+        $lookup: {
+          from: "productos",
+          localField: "producto_id",
+          foreignField: "_id",
+          as: "info_producto"
+        }
+    },
+    {
+        $unwind: "$info_producto"
+    },
+    {
+        $group: {
+            _id: {
+                clienteEmail: "$cliente.email",
+                productoId: "$producto_id"
+            },
+            nombreCliente: { $first: "$cliente.nombre" },
+            nombreProducto: { $first: "$info_producto.nombre" },
+            categoriaProducto: { $first: "$info_producto.categoria" },
+            cantidadTotal: { $sum: "$cantidad" },
+            gastoTotal: { $sum: "$total" },
+            fecha: {$first: "$fecha"}
+        }
+    },
+    {
+        $group: {
+            _id: "$_id.clienteEmail",
+            nombreCliente: { $first: "$nombreCliente" },
+            totalGastado: { $sum: "$gastoTotal" },
+            cantidadDeCompras: { $count: {} },
+            productos: {
+                $push: {
+                    producto_id: "$_id.productoId",
+                    nombre: "$nombreProducto",
+                    cantidad: "$cantidadTotal",
+                    categoria: "$categoriaProducto",
+                    gasto: "$gastoTotal",
+                    fecha: "$fecha"
+                }
+            }
+        }
+    },
+    {
+        $addFields: {
+            productoMasComprado: {
+                $sortArray: {
+                    input: "$productos",
+                    sortBy: { cantidad: -1 }
+                }
+            }
+        }
+    },
+    {
+        $addFields: {
+            productosPorFecha: {
+                $sortArray: {
+                    input: "$productos",
+                    sortBy: { fecha: -1 }
+                },
+            }
+        }
+    },
+    {
+        $addFields: {
+            productosPorFecha: [
+                { primerProducto: { $first: "$productosPorFecha" } },
+                { ultimoProducto: { $last: "$productosPorFecha" } }
+            ]
+        }
+    }
+])
