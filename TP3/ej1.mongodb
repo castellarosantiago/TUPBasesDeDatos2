@@ -1,0 +1,13 @@
+// Filtrado básico con $match 
+
+// a. Encontrar todos los productos de la categoría electrónica con precios superior a 500
+// b . Encontrar todas las ventas realizadas a clientes de España que tengan estado "entregado" 
+
+db.productos.aggregate([
+    {
+        $match: {
+            precio: { $gt: 500}, 
+            categoria: "Electrónica"
+        }
+    }
+])
