@@ -1,0 +1,9 @@
+db.productos.aggregate([
+    {
+        $match: {
+          precio:{$gt:500},
+          categoria:"Electrónica"
+        }
+    },
+
+]);
