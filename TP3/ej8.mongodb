@@ -1,0 +1,54 @@
+// Ejercicio 8: Pipeline complejo
+// Objetivo:
+// Combinar múltiples etapas en un pipeline complejo.
+
+// Tarea:
+// Obtener un informe de ventas que incluya:
+
+// Top 3 productos más vendidos (por cantidad)
+// Para cada producto: nombre, categoría, total de unidades vendidas, monto total generado
+// Puntuación promedio en valoraciones
+
+db.ventas.aggregate([
+    {
+        $group: {
+            _id: "$producto_id",
+            totalUnidades: { $sum: "$cantidad" },
+            montoTotal: { $sum: "$total" }
+        }
+    },
+    {
+        $lookup: {
+            from: "productos",
+            localField: "_id",
+            foreignField: "_id",
+            as: "producto"
+        }
+    },
+    {
+        $unwind: "$producto"
+    },
+    {
+        $addFields: {
+            promedioValoraciones: {
+                $avg: "$producto.valoraciones.puntuacion"
+            }
+        }
+    },
+    {
+        $project: {
+            _id: 0,
+            nombre: "$producto.nombre",
+            categoria: "$producto.categoria",
+            totalUnidades: 1,
+            montoTotal: 1,
+            promedioValoraciones: 1,
+        }
+    },
+    {
+        $sort: { totalUnidades: -1 }
+    },
+    {
+        $limit: 3
+    }
+])
