@@ -1,0 +1,10 @@
+// Ejercicio 6: Trabajo con fechas
+// Objetivo:
+// Practicar con operadores de fecha en el pipeline de agregación.
+
+// Tarea:
+// - Agrupar las ventas por mes y calcular el total vendido en cada mes.
+// - Encontrar el día de la semana con más ventas.
+// 
+// Etapas del Pipeline:
+// $project, $group, $sort

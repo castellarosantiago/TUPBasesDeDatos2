@@ -1,7 +1,10 @@
-// Problema 4 (Desafío):
-// Crear un sistema de recomendación básico que, para un cliente dado, recomiende 
-// productos basándose en:
+// Ejercicio 4: Deconstrucción de arrays con $unwind
+// Objetivo:
+// Comprender y aplicar $unwind para trabajar con arrays.
 
-// -Productos de la misma categoría que ha comprado anteriormente
-// -Productos populares (más vendidos) que no ha comprado aún
-// -Productos mejor valorados en las categorías de su interés
+// Tarea:
+// - Deconstruir el array de valoraciones de productos para obtener una lista plana donde cada documento contenga una valoración individual.
+// - Luego, agrupar por puntuación y contar cuántas valoraciones hay de cada puntuación.
+// 
+// Etapas del Pipeline:
+// $unwind, $group, $sort

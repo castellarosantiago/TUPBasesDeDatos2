@@ -1,20 +1,13 @@
-//Problema 1:
-// Crear un pipeline que obtenga los productos más valorados (puntuación promedio más alta)
-// con al menos 2 valoraciones.
+// Ejercicio 1: Filtrado básico con $match
+// Objetivo:
+// Practicar el uso de $match para filtrar documentos.
 
-
-//primero filtramos los productos que tienen más de dos comentarios
-//Después sacamos el promedio de los comentarios de esos productos
-//Y por ultimo filtramos los productos con un promedio mayor a 3.5
-
-db.productos.aggregate([
-        { $match: { $expr: { $gt: [ { $size: "$valoraciones" }, 2 ] } }},
-        { $group: {
-            _id:"$productos", promedio: { $avg: "$valoraciones.puntuacion" } } },
-        { $sort: { promedio: -1 }}
-   
-    ]);
-
+// Tarea:
+// - Encontrar todos los productos de la categoría "Electrónica" con un precio superior a 500.
+// - Encontrar todas las ventas realizadas a clientes de "España" que tengan estado "Entregado".
+// 
+// Etapa del Pipeline:
+// $match
 
 
 
