@@ -5,6 +5,10 @@
 // Tarea:
 // - Calcular el precio promedio, máximo y mínimo por categoría de producto.
 // - Obtener el total de ventas por país del cliente, incluyendo la cantidad de transacciones y el monto total.
-/
-/ Etapas del Pipeline:
+//
+// Etapas del Pipeline:
 // $group, $sort
+
+use ('tiendaOnline');
+// db.productos.find({});
+

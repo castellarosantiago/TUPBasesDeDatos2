@@ -3,11 +3,31 @@
 // Practicar el uso de $match para filtrar documentos.
 
 // Tarea:
-// - Encontrar todos los productos de la categoría "Electrónica" con un precio superior a 500.
-// - Encontrar todas las ventas realizadas a clientes de "España" que tengan estado "Entregado".
+// - Encontrar todos los productos de la categoría "Electrónica" con 
+// un precio superior a 500.
+// - Encontrar todas las ventas realizadas a clientes de "España" que 
+// tengan estado "Entregado".
 // 
 // Etapa del Pipeline:
 // $match
+
+use ('tiendaOnline');
+// db.productos.find({}); // busco el listado de productos completo
+// db.productos.find({categoria: "Electrónica"}); // busco en el listado
+//                                                // solo la categoria
+//                                                // Electrónica
+
+db.productos.aggregate([
+    {
+        $match: {
+            categoria: "Electrónica",
+            precio: { $gt: 500 }
+            // stock: { $lte: 15 }  // comparo tambien stock menor o 
+            //                      // igual a 15 y me deja sólo 1
+            //                      // producto electrónico         
+        }
+    }
+]);
 
 
 

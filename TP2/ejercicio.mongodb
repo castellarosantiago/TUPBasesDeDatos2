@@ -1,5 +1,5 @@
 // Ejercicio 1
-use empresa;
+use ('empresa');
 db.createCollection("empleados");
 db.empleados.insertMany([
   { nombre: "Juan", edad: 30, puesto: "Ventas" },
@@ -193,5 +193,3 @@ mongorestore --db empresa ./empresa_backup/empresa
 
 //Consulto la Base de Datos para ver si la restauración fue exitosa
 db.empleados.find({});
-
-

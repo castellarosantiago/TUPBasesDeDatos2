@@ -1,4 +1,6 @@
-use tiendaOnline;
+use ('tiendaOnline');
+db.createCollection("productos");
+db.createCollection("ventas");
 
 db.productos.insertMany([
     {
