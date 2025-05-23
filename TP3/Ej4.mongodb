@@ -11,6 +11,10 @@
 
 db.productos.aggregate([
   { $unwind: "$valoraciones" }, // Deconstruyo el array de valoraciones
+]);
+  
+
+db.productos.aggregate([
   { $group: { // Agrupo por puntuación
       _id: "$valoraciones.puntuacion", 
       cantidad: { $sum: 1 } // Cuento cuántas valoraciones hay de cada puntuación
