@@ -8,3 +8,34 @@
 // 
 // Etapas del Pipeline:
 // $project
+
+
+
+db.productos.aggregate([
+  {
+    $project: { // Proyección de productos
+      nombre: 1, // Muestro el campo "nombre"
+      precio: 1, // Muestro el campo "precio"
+      precioConImpuesto: { $add: // add suma precio y el multiply
+        [ "$precio",
+            { $multiply: // Multiplico el precio por 0.21
+                [ 
+                    "$precio", 0.21
+                ] 
+            } 
+        ] }
+    }
+  }
+]);
+
+db.ventas.aggregate([
+  {
+    $project: { // Proyección de ventas
+      _id: 1, // Muestro el campo "_id"
+      nombreCliente: "$cliente.nombre", // muestra el campo "nombre" de la colección "cliente"
+      total: 1, // Muestro el campo "total"
+      descuento: { $multiply: [ "$total", 0.10 ] } // Calculo el 10% del total
+    }
+  }
+]);
+

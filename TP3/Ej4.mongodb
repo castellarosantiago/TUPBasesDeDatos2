@@ -8,3 +8,13 @@
 // 
 // Etapas del Pipeline:
 // $unwind, $group, $sort
+
+db.productos.aggregate([
+  { $unwind: "$valoraciones" }, // Deconstruyo el array de valoraciones
+  { $group: { // Agrupo por puntuación
+      _id: "$valoraciones.puntuacion", 
+      cantidad: { $sum: 1 } // Cuento cuántas valoraciones hay de cada puntuación
+    }
+  },
+  { $sort: { _id: 1 } } // Ordeno por puntuación
+]);
