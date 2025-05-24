@@ -10,15 +10,26 @@
 // $unwind, $group, $sort
 
 db.productos.aggregate([
-  { $unwind: "$valoraciones" }, // Deconstruyo el array de valoraciones
+  { $unwind: "$valoraciones" } // Deconstruyo el array de valoraciones
 ]);
   
 
+// db.productos.aggregate([
+//   { $group: { // Agrupo por puntuación
+//       _id: "$valoraciones.puntuacion", 
+//       cantidad: { $sum: 1 } // Cuento cuántas valoraciones hay de cada puntuación
+//     }
+//   },
+//   { $sort: { _id: 1 } } // Ordeno por puntuación
+// ]);
+
+
 db.productos.aggregate([
-  { $group: { // Agrupo por puntuación
+  { $unwind: "$valoraciones" },
+  { $group: { 
       _id: "$valoraciones.puntuacion", 
-      cantidad: { $sum: 1 } // Cuento cuántas valoraciones hay de cada puntuación
+      cantidad: { $sum: 1 } 
     }
   },
-  { $sort: { _id: 1 } } // Ordeno por puntuación
+  { $sort: { _id: 1 } } 
 ]);

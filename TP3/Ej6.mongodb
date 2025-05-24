@@ -8,3 +8,32 @@
 // 
 // Etapas del Pipeline:
 // $project, $group, $sort
+
+db.ventas.aggregate([
+    {
+        $group: { // agrupo
+            _id: {mes: { $month: "$fecha" }}, // el mes                           
+            totalVendido: { $sum: "$total" }, // la suma del total vendido
+            cantidadVendida: { $sum: "$cantidad" } // y la suma de la cantidad vendida ese mes
+        }
+    },
+    {
+        $sort: { "_id.mes": 1 } // ordeno los meses de menor a mayor (1 es enero y 12 diciembre)
+    }
+]);
+
+
+db.ventas.aggregate([
+    {
+        $group: { // agrupo
+            _id: { $dayOfWeek: "$fecha" }, // id fecha de la semana (1 es domingo y 7 sábado)
+            totalVendido: { $sum: "$total" } // con el total vendido ese día
+        }
+    },
+    {
+        $sort: { totalVendida: -1 } // ordeno de mayor a menor el total vendido
+    },
+    {
+        $limit: 1 // solo me interesa el día con más ventas
+    }
+])

@@ -8,3 +8,47 @@
 // 
 // Etapas del Pipeline:
 // $lookup, $project, $group
+
+db.ventas.aggregate([
+  {
+    $lookup: { // con el lookup se hace un join con la colección productos
+      from: "productos", // desde la colección productos
+      localField: "producto_id", // campo de ventas que hace referencia a productos
+      foreignField: "_id", // campo de productos que hace referencia a ventas
+      as: "producto" // el resultado se almacena en el campo producto
+    }
+  },
+  { $unwind: "$producto" }, // desarmo el campo producto
+  {
+    $project: { // proyecto los campos que quiero
+      _id: 1,
+      producto_id: 1,
+      nombreProducto: "$producto.nombre",
+      categoria: "$producto.categoria",
+      cantidad: 1,
+      total: 1,
+      cliente: 1,
+      fecha: 1
+    }
+  }
+]);
+
+
+db.ventas.aggregate([
+  {
+    $lookup: { 
+      from: "productos",
+      localField: "producto_id",
+      foreignField: "_id",
+      as: "producto"
+    }
+  },
+  { $unwind: "$producto" },
+  {
+    $group: { // agrupo por categoria
+      _id: "$producto.categoria",
+      totalVendido: { $sum: "$total" } // calculo el total vendido
+    }
+  },
+  { $sort: { totalVendido: -1 } } // ordeno el resultado por total vendido en orden descendente
+]);
