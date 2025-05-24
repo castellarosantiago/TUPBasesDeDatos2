@@ -1,0 +1,3 @@
+use ('tiendaOnline');
+
+db.ventas.aggregate([
