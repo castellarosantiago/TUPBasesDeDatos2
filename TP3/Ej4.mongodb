@@ -26,7 +26,8 @@ db.productos.aggregate([
 
 db.productos.aggregate([
   { $unwind: "$valoraciones" },
-  { $group: { 
+  { $group: 
+    { 
       _id: "$valoraciones.puntuacion", 
       cantidad: { $sum: 1 } 
     }

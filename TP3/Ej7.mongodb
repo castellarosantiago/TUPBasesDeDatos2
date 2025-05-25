@@ -8,3 +8,46 @@
 // 
 // Etapas del Pipeline:
 // $project, $group
+
+// Clasificación de productos según su precio
+db.productos.aggregate([
+  {
+    $project: {
+      nombre: 1, // Incluye el nombre del producto
+      precio: 1, // Incluye el precio original
+      // Clasifico el producto según su precio usando switch
+      categoriaPrecio: {
+        $switch: {
+          branches: [
+            { case: { $lt: ["$precio", 100] }, then: "Económico" },
+            { case: { $and: [ { $gte: ["$precio", 100] }, { $lte: ["$precio", 500] } ] }, then: "Estándar" },
+            { case: { $gt: ["$precio", 500] }, then: "Premium" }
+          ],
+          // Si no cumple ninguna condición es sin clasificar
+          default: "Sin clasificar"
+        }
+      }
+    }
+  }
+]);
+
+// Clasificación de ventas según su total
+db.ventas.aggregate([
+  {
+    $project: {
+      _id: 1,   // Incluye el id de la venta
+      total: 1, // Incluye el total de la venta
+      // Clasifico la venta según el total usando switch
+      clasificacionVenta: {
+        $switch: {
+          branches: [
+            { case: { $lt: ["$total", 200] }, then: "Pequeña" },
+            { case: { $and: [ { $gte: ["$total", 200] }, { $lte: ["$total", 800] } ] }, then: "Mediana" },
+            { case: { $gt: ["$total", 800] }, then: "Grande" }
+          ],
+          default: "Sin clasificar"
+        }
+      }
+    }
+  }
+]);
