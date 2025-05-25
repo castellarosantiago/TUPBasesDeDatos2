@@ -23,3 +23,26 @@ db.productos.aggregate([
         }
     },
 ]);
+
+db.ventas.aggregate([
+    {
+        $project: {
+            _id: 0,
+            "cliente.nombre": 1,
+            total: 1,
+            tipoDeCompra: {
+                $cond: {
+                    if: { $lt: ["$total", 200]},
+                    then: "Pequeña",
+                    else: {
+                        $cond: {
+                            if: { $gt: ["$total", 800]},
+                            then: "Grande",
+                            else: "Mediana",
+                        }
+                    }
+                }
+            }
+        }
+    },
+]);
