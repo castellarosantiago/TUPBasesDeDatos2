@@ -1,0 +1,19 @@
+use ('tiendaOnline')
+
+db.productos.aggregate([
+    {
+    $match: {
+         precio: { $gt: 500 },
+         categoria:'Electrónica'
+        }
+    },
+]);
+
+db.ventas.aggregate([
+    {
+        $match: {
+            "cliente.pais" : 'España' ,
+            estado: 'Entregado'
+        }
+    }
+]);

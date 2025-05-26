@@ -1,0 +1,38 @@
+use ('tiendaOnline');
+// Clasificar productos según su precio
+db.productos.aggregate([
+    {
+      $project: {
+        nombre: 1,
+        precio: 1,
+        clasificacion: {
+          $switch: {
+            branches: [
+              { case: { $lt: ["$precio", 100] }, then: "Económico" },
+              { case: { $lte: ["$precio", 500] }, then: "Estándar" }
+            ],
+            default: "Premium"
+          }
+        }
+      }
+    }
+  ]);
+  
+  // Clasificar ventas según su total
+  db.ventas.aggregate([
+    {
+      $project: {
+        _id: 1,
+        total: 1,
+        clasificacion: {
+          $switch: {
+            branches: [
+              { case: { $lt: ["$total", 200] }, then: "Pequeña" },
+              { case: { $lte: ["$total", 800] }, then: "Mediana" }
+            ],
+            default: "Grande"
+          }
+        }
+      }
+    }
+  ]);
