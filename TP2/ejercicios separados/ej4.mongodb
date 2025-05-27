@@ -1,5 +1,5 @@
 // Ejercicio 4
-// Agregar un campo dirección a todos los empleados con un array de calle, ciudad y dirección
+// Agregar un campo dirección a todos los empleados con un array de calle, ciudad y código postal
 db.empleados.updateMany(
     {},
     {
@@ -7,14 +7,11 @@ db.empleados.updateMany(
         direccion: {
           calle: "",
           ciudad: "",
-          dirección: ""
+          codigo_postal: ""
         }
       }
     }
   );
   
-  // Mostrar empleados con dirección
-db.empleados.find({})
-
-// Encontrar empleados mayores de 30 años
-db.empleados.find({ edad: { $gt: 30 } });
+// Mostrar empleados con dirección
+db.empleados.find({});

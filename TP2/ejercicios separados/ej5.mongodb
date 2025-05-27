@@ -17,4 +17,4 @@ db.ventas.aggregate([
       total: { $sum: { $multiply: ["$cantidad", "$precio_unitario"] } }
     }
   }
-])
+]);

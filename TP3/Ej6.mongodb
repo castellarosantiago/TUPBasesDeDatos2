@@ -10,30 +10,29 @@
 // $project, $group, $sort
 
 db.ventas.aggregate([
+  {
+    $group: 
     {
-        $group: { // agrupo
-            _id: {mes: { $month: "$fecha" }}, // el mes                           
-            totalVendido: { $sum: "$total" }, // la suma del total vendido
-            cantidadVendida: { $sum: "$cantidad" } // y la suma de la cantidad vendida ese mes
-        }
-    },
-    {
-        $sort: { "_id.mes": 1 } // ordeno los meses de menor a mayor (1 es enero y 12 diciembre)
+      _id: { mes: { $month: "$fecha" } },
+      totalVendidoPorMes: { $sum: "$total" }
     }
+  },
+  { $sort: { totalVendidoPorMes: -1 } }
 ]);
 
 
 db.ventas.aggregate([
+  {
+    $group: 
     {
-        $group: { // agrupo
-            _id: { $dayOfWeek: "$fecha" }, // id fecha de la semana (1 es domingo y 7 sábado)
-            totalVendido: { $sum: "$total" } // con el total vendido ese día
-        }
-    },
-    {
-        $sort: { totalVendida: -1 } // ordeno de mayor a menor el total vendido
-    },
-    {
-        $limit: 1 // solo me interesa el día con más ventas
+      _id: { dia: { $dayOfWeek: "$fecha" } }, // Agrupa por día de la semana
+      diaMayoresVentas: { $sum: "$total" }    // Suma el total vendido ese día
     }
-])
+  },
+  {
+    $sort: { diaMayoresVentas: -1 } // Ordena de mayor a menor
+  },
+  {
+    $limit: 1 // Muestra solo el día con más ventas
+  }
+]);

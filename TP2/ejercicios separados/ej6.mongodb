@@ -8,11 +8,10 @@ db.clientes.insertMany([
   { nombre: "Maria", apellido: "López" },
   { nombre: "Pedro", apellido: "Martínez" },
   { nombre: "Laura", apellido: "Sánchez" }
+  { nombre: "Javier", apellido: "Pérez" },
 ]);
 
 // Indice compuesto con apellido y nombre
 db.clientes.createIndex({ apellido: 1, nombre: 1 });
 
-// Crear una colección alumnos y cursos
-db.createCollection("alumnos");
-db.createCollection("cursos");
+db.clientes.find({ apellido: "Pérez" } );

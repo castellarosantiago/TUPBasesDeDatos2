@@ -29,7 +29,15 @@ db.productos.aggregate([
     }
 ]);
 
-
+db.ventas.aggregate([
+    {
+        $match:
+        {
+            "cliente.pais": "España",
+            estado: "Entregado"
+        }
+    }
+]);
 
 
 

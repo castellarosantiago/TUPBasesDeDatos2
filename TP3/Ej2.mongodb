@@ -37,3 +37,20 @@ db.productos.aggregate([
         }
     }
 ]);
+
+db.ventas.aggregate([
+  {
+    $group:
+    {
+      _id: "$cliente.pais",
+      totalTransacciones: { $sum: "$cantidad" },
+      totalPais: { $sum: "$total" }
+    }
+  },
+  {
+    $sort:
+    {
+      totalPais: -1
+    }
+  }
+]);
