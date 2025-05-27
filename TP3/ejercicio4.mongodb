@@ -14,4 +14,4 @@ db.productos.aggregate([
           cantidadValoraciones: 1
         }
     }
-])
+]);

@@ -13,7 +13,7 @@ db.ventas.aggregate([
     {
         $sort: { "_id.mes": 1, totalVentas: -1 }
     }
-])
+]);
 
 // Consulta b: Día de la semana con más ventas
 
@@ -31,4 +31,4 @@ db.ventas.aggregate([
     {
         $limit: 1
     }
-])
+]);

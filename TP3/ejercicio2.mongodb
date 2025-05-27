@@ -8,7 +8,7 @@ db.productos.aggregate([
             precioMinimo: { $min: "$precio" },
         }
     },
-])
+]);
 
 db.ventas.aggregate([
     {
@@ -19,4 +19,4 @@ db.ventas.aggregate([
             montoTotal: {$sum: {$multiply: ["$cantidad", "$precio_unitario"]}},
         }
     },
-])
+]);
