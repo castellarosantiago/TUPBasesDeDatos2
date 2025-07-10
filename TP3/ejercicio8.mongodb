@@ -1,0 +1,49 @@
+use ('tiendaOnline');
+
+db.ventas.aggregate([
+    // Uno la información del producto
+    {
+      $lookup: {
+        from: "productos",
+        localField: "producto_id",
+        foreignField: "_id",
+        as: "producto"
+      }
+    },
+    { $unwind: "$producto" },
+  
+    // Agrupo por producto para sumar cantidades y montos
+    {
+      $group: {
+        _id: "$producto_id",
+        nombre: { $first: "$producto.nombre" },
+        categoria: { $first: "$producto.categoria" },
+        totalUnidadesVendidas: { $sum: "$cantidad" },
+        montoTotal: { $sum: "$total" },
+        valoraciones: { $first: "$producto.valoraciones" }
+      }
+    },
+  
+    // Calculo el promedio de puntuación en valoraciones
+    {
+      $addFields: {
+      puntuacionPromedio: { $avg: "$valoraciones.puntuacion" }
+      }
+    },
+  
+    // Ordeno por unidades vendidas y limito a las mejores 3
+    { $sort: { totalUnidadesVendidas: -1 } },
+    { $limit: 3 },
+  
+    // Proyecto solamente los campos requeridos
+    {
+      $project: {
+        _id: 0,
+        nombre: 1,
+        categoria: 1,
+        totalUnidadesVendidas: 1,
+        montoTotal: 1,
+        puntuacionPromedio: 1
+      }
+    }
+  ]);

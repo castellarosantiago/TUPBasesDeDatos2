@@ -145,175 +145,175 @@ db.productos.insertMany([
       proveedor: { nombre: "StoragePro", pais: "Japón" },
       fecha_ingreso: new Date("2023-03-20")
     }
-  ]);
+]);
   
-  db.ventas.insertMany([
-    {
-      _id: 101,
-      producto_id: 1,
-      cliente: { nombre: "Ana Martínez", email: "ana@example.com", pais: "España" },
-      cantidad: 1,
-      precio_unitario: 1200.00,
-      total: 1200.00,
-      fecha: new Date("2023-03-15"),
-      estado: "Entregado",
-      metodo_pago: "Tarjeta de crédito"
-    },
-    {
-      _id: 102,
-      producto_id: 3,
-      cliente: { nombre: "Carlos López", email: "carlos@example.com", pais: "México" },
-      cantidad: 2,
-      precio_unitario: 120.00,
-      total: 240.00,
-      fecha: new Date("2023-03-16"),
-      estado: "Entregado",
-      metodo_pago: "PayPal"
-    },
-    {
-      _id: 103,
-      producto_id: 5,
-      cliente: { nombre: "María González", email: "maria@example.com", pais: "Argentina" },
-      cantidad: 1,
-      precio_unitario: 90.00,
-      total: 90.00,
-      fecha: new Date("2023-03-17"),
-      estado: "En tránsito",
-      metodo_pago: "Transferencia bancaria"
-    },
-    {
-      _id: 104,
-      producto_id: 2,
-      cliente: { nombre: "Juan Pérez", email: "juan@example.com", pais: "Colombia" },
-      cantidad: 1,
-      precio_unitario: 800.00,
-      total: 800.00,
-      fecha: new Date("2023-03-18"),
-      estado: "Procesando",
-      metodo_pago: "Tarjeta de crédito"
-    },
-    {
-      _id: 105,
-      producto_id: 7,
-      cliente: { nombre: "Ana Martínez", email: "ana@example.com", pais: "España" },
-      cantidad: 1,
-      precio_unitario: 60.00,
-      total: 60.00,
-      fecha: new Date("2023-03-19"),
-      estado: "Entregado",
-      metodo_pago: "PayPal"
-    },
-    {
-      _id: 106,
-      producto_id: 10,
-      cliente: { nombre: "Roberto Sánchez", email: "roberto@example.com", pais: "Chile" },
-      cantidad: 2,
-      precio_unitario: 110.00,
-      total: 220.00,
-      fecha: new Date("2023-03-20"),
-      estado: "Entregado",
-      metodo_pago: "Tarjeta de crédito"
-    },
-    {
-      _id: 107,
-      producto_id: 4,
-      cliente: { nombre: "Laura García", email: "laura@example.com", pais: "España" },
-      cantidad: 1,
-      precio_unitario: 350.00,
-      total: 350.00,
-      fecha: new Date("2023-03-21"),
-      estado: "En tránsito",
-      metodo_pago: "Transferencia bancaria"
-    },
-    {
-      _id: 108,
-      producto_id: 6,
-      cliente: { nombre: "Carlos López", email: "carlos@example.com", pais: "México" },
-      cantidad: 1,
-      precio_unitario: 450.00,
-      total: 450.00,
-      fecha: new Date("2023-03-22"),
-      estado: "Procesando",
-      metodo_pago: "PayPal"
-    },
-    {
-      _id: 109,
-      producto_id: 9,
-      cliente: { nombre: "Elena Rodríguez", email: "elena@example.com", pais: "Argentina" },
-      cantidad: 3,
-      precio_unitario: 80.00,
-      total: 240.00,
-      fecha: new Date("2023-03-23"),
-      estado: "Entregado",
-      metodo_pago: "Tarjeta de crédito"
-    },
-    {
-      _id: 110,
-      producto_id: 8,
-      cliente: { nombre: "Miguel Fernández", email: "miguel@example.com", pais: "Colombia" },
-      cantidad: 1,
-      precio_unitario: 200.00,
-      total: 200.00,
-      fecha: new Date("2023-03-24"),
-      estado: "Entregado",
-      metodo_pago: "Transferencia bancaria"
-    },
-    {
-      _id: 111,
-      producto_id: 2,
-      cliente: { nombre: "Pedro Díaz", email: "pedro@example.com", pais: "España" },
-      cantidad: 1,
-      precio_unitario: 800.00,
-      total: 800.00,
-      fecha: new Date("2023-03-25"),
-      estado: "Procesando",
-      metodo_pago: "Tarjeta de crédito"
-    },
-    {
-      _id: 112,
-      producto_id: 1,
-      cliente: { nombre: "Ana Martínez", email: "ana@example.com", pais: "España" },
-      cantidad: 1,
-      precio_unitario: 1200.00,
-      total: 1200.00,
-      fecha: new Date("2023-03-26"),
-      estado: "En tránsito",
-      metodo_pago: "PayPal"
-    },
-    {
-      _id: 113,
-      producto_id: 5,
-      cliente: { nombre: "Carlos López", email: "carlos@example.com", pais: "México" },
-      cantidad: 2,
-      precio_unitario: 90.00,
-      total: 180.00,
-      fecha: new Date("2023-03-27"),
-      estado: "Entregado",
-      metodo_pago: "Tarjeta de crédito"
-    },
-    {
-      _id: 114,
-      producto_id: 3,
-      cliente: { nombre: "Sofía Torres", email: "sofia@example.com", pais: "Chile" },
-      cantidad: 1,
-      precio_unitario: 120.00,
-      total: 120.00,
-      fecha: new Date("2023-03-28"),
-      estado: "Entregado",
-      metodo_pago: "Transferencia bancaria"
-    },
-    {
-      _id: 115,
-      producto_id: 7,
-      cliente: { nombre: "Juan Pérez", email: "juan@example.com", pais: "Colombia" },
-      cantidad: 1,
-      precio_unitario: 60.00,
-      total: 60.00,
-      fecha: new Date("2023-03-29"),
-      estado: "Procesando",
-      metodo_pago: "PayPal"
-    }
-  ]);
+db.ventas.insertMany([
+  {
+    _id: 101,
+    producto_id: 1,
+    cliente: { nombre: "Ana Martínez", email: "ana@example.com", pais: "España" },
+    cantidad: 1,
+    precio_unitario: 1200.00,
+    total: 1200.00,
+    fecha: new Date("2023-03-15"),
+    estado: "Entregado",
+    metodo_pago: "Tarjeta de crédito"
+  },
+  {
+    _id: 102,
+    producto_id: 3,
+    cliente: { nombre: "Carlos López", email: "carlos@example.com", pais: "México" },
+    cantidad: 2,
+    precio_unitario: 120.00,
+    total: 240.00,
+    fecha: new Date("2023-03-16"),
+    estado: "Entregado",
+    metodo_pago: "PayPal"
+  },
+  {
+    _id: 103,
+    producto_id: 5,
+    cliente: { nombre: "María González", email: "maria@example.com", pais: "Argentina" },
+    cantidad: 1,
+    precio_unitario: 90.00,
+    total: 90.00,
+    fecha: new Date("2023-03-17"),
+    estado: "En tránsito",
+    metodo_pago: "Transferencia bancaria"
+  },
+  {
+    _id: 104,
+    producto_id: 2,
+    cliente: { nombre: "Juan Pérez", email: "juan@example.com", pais: "Colombia" },
+    cantidad: 1,
+    precio_unitario: 800.00,
+    total: 800.00,
+    fecha: new Date("2023-03-18"),
+    estado: "Procesando",
+    metodo_pago: "Tarjeta de crédito"
+  },
+  {
+    _id: 105,
+    producto_id: 7,
+    cliente: { nombre: "Ana Martínez", email: "ana@example.com", pais: "España" },
+    cantidad: 1,
+    precio_unitario: 60.00,
+    total: 60.00,
+    fecha: new Date("2023-03-19"),
+    estado: "Entregado",
+    metodo_pago: "PayPal"
+  },
+  {
+    _id: 106,
+    producto_id: 10,
+    cliente: { nombre: "Roberto Sánchez", email: "roberto@example.com", pais: "Chile" },
+    cantidad: 2,
+    precio_unitario: 110.00,
+    total: 220.00,
+    fecha: new Date("2023-03-20"),
+    estado: "Entregado",
+    metodo_pago: "Tarjeta de crédito"
+  },
+  {
+    _id: 107,
+    producto_id: 4,
+    cliente: { nombre: "Laura García", email: "laura@example.com", pais: "España" },
+    cantidad: 1,
+    precio_unitario: 350.00,
+    total: 350.00,
+    fecha: new Date("2023-03-21"),
+    estado: "En tránsito",
+    metodo_pago: "Transferencia bancaria"
+  },
+  {
+    _id: 108,
+    producto_id: 6,
+    cliente: { nombre: "Carlos López", email: "carlos@example.com", pais: "México" },
+    cantidad: 1,
+    precio_unitario: 450.00,
+    total: 450.00,
+    fecha: new Date("2023-03-22"),
+    estado: "Procesando",
+    metodo_pago: "PayPal"
+  },
+  {
+    _id: 109,
+    producto_id: 9,
+    cliente: { nombre: "Elena Rodríguez", email: "elena@example.com", pais: "Argentina" },
+    cantidad: 3,
+    precio_unitario: 80.00,
+    total: 240.00,
+    fecha: new Date("2023-03-23"),
+    estado: "Entregado",
+    metodo_pago: "Tarjeta de crédito"
+  },
+  {
+    _id: 110,
+    producto_id: 8,
+    cliente: { nombre: "Miguel Fernández", email: "miguel@example.com", pais: "Colombia" },
+    cantidad: 1,
+    precio_unitario: 200.00,
+    total: 200.00,
+    fecha: new Date("2023-03-24"),
+    estado: "Entregado",
+    metodo_pago: "Transferencia bancaria"
+  },
+  {
+    _id: 111,
+    producto_id: 2,
+    cliente: { nombre: "Pedro Díaz", email: "pedro@example.com", pais: "España" },
+    cantidad: 1,
+    precio_unitario: 800.00,
+    total: 800.00,
+    fecha: new Date("2023-03-25"),
+    estado: "Procesando",
+    metodo_pago: "Tarjeta de crédito"
+  },
+  {
+    _id: 112,
+    producto_id: 1,
+    cliente: { nombre: "Ana Martínez", email: "ana@example.com", pais: "España" },
+    cantidad: 1,
+    precio_unitario: 1200.00,
+    total: 1200.00,
+    fecha: new Date("2023-03-26"),
+    estado: "En tránsito",
+    metodo_pago: "PayPal"
+  },
+  {
+    _id: 113,
+    producto_id: 5,
+    cliente: { nombre: "Carlos López", email: "carlos@example.com", pais: "México" },
+    cantidad: 2,
+    precio_unitario: 90.00,
+    total: 180.00,
+    fecha: new Date("2023-03-27"),
+    estado: "Entregado",
+    metodo_pago: "Tarjeta de crédito"
+  },
+  {
+    _id: 114,
+    producto_id: 3,
+    cliente: { nombre: "Sofía Torres", email: "sofia@example.com", pais: "Chile" },
+    cantidad: 1,
+    precio_unitario: 120.00,
+    total: 120.00,
+    fecha: new Date("2023-03-28"),
+    estado: "Entregado",
+    metodo_pago: "Transferencia bancaria"
+  },
+  {
+    _id: 115,
+    producto_id: 7,
+    cliente: { nombre: "Juan Pérez", email: "juan@example.com", pais: "Colombia" },
+    cantidad: 1,
+    precio_unitario: 60.00,
+    total: 60.00,
+    fecha: new Date("2023-03-29"),
+    estado: "Procesando",
+    metodo_pago: "PayPal"
+  }
+]);
 
 
   

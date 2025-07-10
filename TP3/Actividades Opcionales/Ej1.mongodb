@@ -8,12 +8,12 @@
 //Y por ultimo filtramos los productos con un promedio mayor a 3.5
 
 db.productos.aggregate([
-        { $match: { $expr: { $gt: [ { $size: "$valoraciones" }, 2 ] } }},
-        { $group: {
-            _id:"$productos", promedio: { $avg: "$valoraciones.puntuacion" } } },
-        { $sort: { promedio: -1 }}
-   
-    ]);
+    { $match: { $expr: { $gt: [ { $size: "$valoraciones" }, 2 ] } }},
+    { $unwind: "$valoraciones" },
+    { $group: {
+        _id:"$_id", promedio: { $avg: "$valoraciones.puntuacion" } } },
+    { $sort: { promedio: -1 }}
+]);
 
 
 
