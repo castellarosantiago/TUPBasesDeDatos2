@@ -1,3 +1,10 @@
+# TP4 - Ejercicio 3: Red Social Profesional
+
+---
+
+## Script de carga Cypher
+
+```cypher
 CREATE 
 //CREAR USUARIOS
   (marty:Usuario {nombre: 'Marty'}),
@@ -53,28 +60,40 @@ CREATE
   (biff)-[:ENDOSO {habilidad: "Neo4j"}]->(emmet),
   (marty)-[:ENDOSO {habilidad: "Docker"}]->(biff),
   (emmet)-[:ENDOSO {habilidad: "Python"}]->(marty);
+```
 
-//QUERYS
-//Listar usuarios con más conexiones
+---
+
+## Consultas Cypher
+
+***Listar usuarios con más conexiones***
+```cypher
 MATCH (u:Usuario)-[]-()
 RETURN u.nombre AS usuario, COUNT(*) AS conexiones
 ORDER BY conexiones DESC;
-
-//Obtener los 2 usuarios con más publicaciones
+```
+***Obtener los 2 usuarios con más publicaciones***
+```cypher
 MATCH (u:Usuario)-[:PUBLICADO]->(:Post)
 RETURN u.nombre AS usuario, COUNT(*) AS publicaciones
 ORDER BY publicaciones DESC
 LIMIT 2;
-
-//Mostrar las habilidades más endosadas en total
+```
+***Mostrar las habilidades más endosadas en total***
+```cypher
 MATCH (:Usuario)-[e:ENDOSO]->(:Usuario)
 RETURN e.habilidad AS habilidad, COUNT(*) AS endosos
 ORDER BY endosos DESC;
-
-//Para un usuario específico, listar las habilidades que aún no ha endosado a otros
+```
+***Para un usuario específico, listar las habilidades que aún no ha endosado a otros***
+```cypher
 MATCH (h:Habilidad)
 WHERE NOT EXISTS {
   MATCH (marty:Usuario {nombre: "Marty"})-[e:ENDOSO]->(:Usuario)
   WHERE e.habilidad = h.nombre
 }
 RETURN h.nombre AS no_endosadas_por_marty;
+```
+
+
+---

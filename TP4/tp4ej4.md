@@ -1,3 +1,10 @@
+# TP4 - Ejercicio 4: Sistema de Cursos y Calificaciones
+
+---
+
+## Script de carga Cypher
+
+```cypher
 CREATE
 //CREAR Estudiantes
 (lucas:Estudiante {nombre: 'Lucas'}),
@@ -33,26 +40,38 @@ CREATE
 (m1)-[:CORRELATIVA_CON]->(m3),
 (m2)-[:CORRELATIVA_CON]->(m5),
 (m3)-[:CORRELATIVA_CON]->(m6);
+```
 
-//QUERYS
-//LISTAR LA TRANSCRIPCIÓN ACADÉMICA DE UN ESTUDIANTE
+---
+
+## Consultas Cypher
+
+***Listar la transcripción académica de un estudiante***
+```cypher
 MATCH (e:Estudiante {nombre: "Lucas"})-[f:CURSA]->(c:Curso)-[:CORRESPONDE]->(m:Materia)
 RETURN m.nombre AS materia, c.nombre AS curso, f.nota AS nota;
-
-//PUEDE INSCRIBIRSE?
+```
+***¿Puede inscribirse?***
+```cypher
 MATCH (e:Estudiante {nombre:'Lucas'}),
     (m:Materia {nombre: 'Programación IV'})<-[:CORRELATIVA_CON]-(p:Materia), 
     (c:Curso)-[:CORRESPONDE]->(p),
     (e)-[n:CURSA]->(c)
 WITH n.nota AS nota
 RETURN WHEN nota >= 6 THEN "Puede inscribirse" ELSE "No puede inscribirse";
-
-//PROMEDIO DE CALIFICACIONES POR ESTUDIANTE
+```
+***Promedio de calificaciones por estudiante***
+```cypher
 MATCH (e:Estudiante)-[c:CURSA]-()
 RETURN e.nombre AS estudiante, AVG(c.nota) AS promedio;
-
-//MATERIAS CON PROMEDIO INFERIOR A 7
+```
+***Materias con promedio inferior a 7***
+```cypher
 MATCH (:Estudiante)-[i:CURSA]->(c:Curso)-[:CORRESPONDE]->(m:Materia)
 WITH m.nombre AS materia, AVG(i.nota) AS promedio
 WHERE promedio < 7
 RETURN materia, promedio;
+```
+
+
+---
