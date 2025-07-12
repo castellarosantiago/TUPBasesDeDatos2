@@ -16,7 +16,6 @@ CREATE
 (m2:Materia {nombre: "Base de Datos III"}),
 (m3:Materia {nombre: "Programación IV"}),
 
-
 //CREAR RELACIONES ENTRE Estudiantes y Cursos
 (lucas)-[:CURSA {nota: 9.5}]->(c2),
 (gianluca)-[:CURSA {nota: 7.5}]->(c1),
@@ -35,29 +34,25 @@ CREATE
 (m2)-[:CORRELATIVA_CON]->(m5),
 (m3)-[:CORRELATIVA_CON]->(m6),
 
+//QUERYS
 //LISTAR LA TRANSCRIPCIÓN ACADÉMICA DE UN ESTUDIANTE
 MATCH (e:Estudiante {nombre: "Lucas"})-[f:CURSA]->(c:Curso)-[:CORRESPONDE]->(m:Materia)
 RETURN m.nombre AS materia, c.nombre AS curso, f.nota AS nota
 
 //PUEDE INSCRIBIRSE?
-
 MATCH (e:Estudiante {nombre:'Lucas'}),
     (m:Materia {nombre: 'Programación IV'})<-[:CORRELATIVA_CON]-(p:Materia), 
     (c:Curso)-[:CORRESPONDE]->(p),
     (e)-[n:CURSA]->(c)
 WITH n.nota AS nota
-
 RETURN WHEN nota >= 6 THEN "Puede inscribirse" ELSE "No puede inscribirse"
 
 //PROMEDIO DE CALIFICACIONES POR ESTUDIANTE
-
 MATCH (e:Estudiante)-[c:CURSA]-(*)
 RETURN e.nombre AS estudiante, AVG(c.nota) AS promedio
 
 //MATERIAS CON PROMEDIO INFERIOR A 7
-
 MATCH (:Estudiante)-[i:CURSA]->(c:Curso)-[:CORRESPONDE]->(m:Materia)
-
 WITH m.nombre AS materia, AVG(i.nota) AS promedio
 WHERE promedio < 7
 RETURN materia, promedio
