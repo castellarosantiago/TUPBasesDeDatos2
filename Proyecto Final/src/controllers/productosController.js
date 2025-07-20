@@ -20,3 +20,31 @@ export async function listarProductos(req, res) {
       res.status(500).json({ error: 'Error al obtener productos' });
     }
   }
+
+  //
+export async function consultarStock(req, res) {
+  try{
+    const db = await connectDB();
+    const {codigo}= req.params;
+    const producto = await db.collection('productos').findOne({codigo});
+    if(!producto){
+      return res.status(404).json({error:'Producto no encontrado'});
+    }
+    res.json({codigo: producto.codigo, stockActual:producto.stockActual});
+  }catch(error){
+    res.status(500).json({error:'Error al consultar el stock'})
+  }
+}
+
+//
+export async function productosStockBajo(req, res) {
+  try{
+    const db = await connectDB();
+    const productos = await db.collection('productos').find({
+      $expr:{$lt:["$stockActual", "$stockMinimo"]}
+    }).toArray();
+    res.json(productos);
+  }catch(error){
+    res.status(500).json({error: 'Error al consultar productos con stock bajo'})
+  }
+}
