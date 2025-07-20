@@ -1,0 +1,99 @@
+# TP4 - Ejercicio 3: Red Social Profesional
+
+---
+
+## Script de carga Cypher
+
+```cypher
+CREATE 
+//CREAR USUARIOS
+  (marty:Usuario {nombre: 'Marty'}),
+  (lorraine:Usuario {nombre: 'Lorraine'}),
+  (emmet:Usuario {nombre: 'Emmet'}),
+  (biff:Usuario {nombre: 'Biff'}),
+
+//CREAR POSTS DE USUSARIOS
+  (p1:Post {contenido: "Eres un gallina McFly", fecha: '2025-07-01'}),
+  (p2:Post {contenido: "Adonde vamos no hay carreteras", fecha: '2025-07-02'}),
+  (p3:Post {contenido: "Si te lo propones puedes lograr cualquier cosa", fecha: '2025-07-03'}),
+  (p4:Post {contenido: "¡1.21 gigowatts!", fecha: '2025-07-04'}),
+  (p5:Post {contenido: "Usted es el Doc, Doc.", fecha: '2025-07-05'}),
+  (p6:Post {contenido: "Esto está pesado", fecha: '2025-07-06'}),
+
+//CREAR HABILIDADES
+  (h1:Habilidad {nombre: "Python"}),
+  (h2:Habilidad {nombre: "SQL"}),
+  (h3:Habilidad {nombre: "JavaScript"}),
+  (h4:Habilidad {nombre: "Neo4j"}),
+  (h5:Habilidad {nombre: "HTML"}),
+  (h6:Habilidad {nombre: "CSS"}),
+  (h7:Habilidad {nombre: "React"}),
+  (h8:Habilidad {nombre: "Docker"}),
+
+//CREAR RELACIONES ENTRE USUARIOS
+  (marty)-[:AMIGO_DE]->(emmet),
+  (emmet)-[:AMIGO_DE]->(marty),
+  (marty)-[:AMIGO_DE]->(lorraine),
+  (biff)-[:AMIGO_DE]->(lorraine),
+
+//CREAR RELACIONES ENTRE POSTS Y USUARIOS
+  (emmet)-[:PUBLICADO]->(p2),
+  (marty)-[:PUBLICADO]->(p3),
+  (biff)-[:PUBLICADO]->(p1),
+  (emmet)-[:PUBLICADO]->(p4),
+  (marty)-[:PUBLICADO]->(p5),
+  (marty)-[:PUBLICADO]->(p6),
+
+//CREAR RELACIONES ENTRE HABILIDADES Y USUARIOS
+  (marty)-[:SABE]->(h1),
+  (marty)-[:SABE]->(h3),
+  (lorraine)-[:SABE]->(h4),
+  (lorraine)-[:SABE]->(h6),
+  (biff)-[:SABE]->(h8),
+  (biff)-[:SABE]->(h5),
+  (emmet)-[:SABE]->(h4),
+  (emmet)-[:SABE]->(h1),
+  (emmet)-[:SABE]->(h3),
+
+//CREAR ENDOSOS
+  (marty)-[:ENDOSO {habilidad: "Python"}]->(emmet),
+  (biff)-[:ENDOSO {habilidad: "Neo4j"}]->(emmet),
+  (marty)-[:ENDOSO {habilidad: "Docker"}]->(biff),
+  (emmet)-[:ENDOSO {habilidad: "Python"}]->(marty);
+```
+
+---
+
+## Consultas Cypher
+
+***Listar usuarios con más conexiones***
+```cypher
+MATCH (u:Usuario)-[]-()
+RETURN u.nombre AS usuario, COUNT(*) AS conexiones
+ORDER BY conexiones DESC;
+```
+***Obtener los 2 usuarios con más publicaciones***
+```cypher
+MATCH (u:Usuario)-[:PUBLICADO]->(:Post)
+RETURN u.nombre AS usuario, COUNT(*) AS publicaciones
+ORDER BY publicaciones DESC
+LIMIT 2;
+```
+***Mostrar las habilidades más endosadas en total***
+```cypher
+MATCH (:Usuario)-[e:ENDOSO]->(:Usuario)
+RETURN e.habilidad AS habilidad, COUNT(*) AS endosos
+ORDER BY endosos DESC;
+```
+***Para un usuario específico, listar las habilidades que aún no ha endosado a otros***
+```cypher
+MATCH (h:Habilidad)
+WHERE NOT EXISTS {
+  MATCH (marty:Usuario {nombre: "Marty"})-[e:ENDOSO]->(:Usuario)
+  WHERE e.habilidad = h.nombre
+}
+RETURN h.nombre AS no_endosadas_por_marty;
+```
+
+
+---

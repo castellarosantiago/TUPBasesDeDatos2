@@ -1,0 +1,8 @@
+// Problema 3:
+// Crear un informe de clientes que incluya:
+
+// -Total gastado por cada cliente
+// -Número de compras realizadas
+// -Producto favorito (el que más ha comprado)
+// -Categoría preferida (donde más ha gastado)
+// -Fecha de primera y última compra

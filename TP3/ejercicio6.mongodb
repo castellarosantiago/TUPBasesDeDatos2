@@ -1,0 +1,34 @@
+use ('tiendaOnline');
+db.ventas.aggregate([
+    {
+        $group: {
+            _id: {
+                mes: { $month: "$fecha" },
+                producto_id: "$producto_id"
+            },
+            totalVentas: { $sum: "$total" },
+            cantidadVentas: { $sum: "$cantidad" },
+        }
+    },
+    {
+        $sort: { "_id.mes": 1, totalVentas: -1 }
+    }
+]);
+
+// Consulta b: Día de la semana con más ventas
+
+db.ventas.aggregate([
+    {
+        $group: {
+            _id: { $dayOfWeek: "$fecha" },
+            totalVentas: { $sum: "$total" },
+            cantidadVentas: { $sum: 1 }
+        }
+    },
+    {
+        $sort: { totalVentas: -1 }
+    },
+    {
+        $limit: 1
+    }
+]);
