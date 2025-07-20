@@ -2,8 +2,8 @@ import connectDB from '../db/mongoClient.js';
 
 export async function agregarProducto(req, res) {
   try {
-    const db = await connectDB();
-    const producto = req.body;
+    let db = await connectDB();
+    let producto = req.body;
     await db.collection('productos').insertOne(producto);
     res.status(201).json({ mensaje: 'Producto agregado' });
   } catch (error) {
@@ -13,8 +13,8 @@ export async function agregarProducto(req, res) {
 
 export async function listarProductos(req, res) {
     try {
-      const db = await connectDB();
-      const productos = await db.collection('productos').find().toArray();
+      let db = await connectDB();
+      let productos = await db.collection('productos').find().toArray();
       res.json(productos);
     } catch (error) {
       res.status(500).json({ error: 'Error al obtener productos' });
@@ -24,9 +24,9 @@ export async function listarProductos(req, res) {
   //
 export async function consultarStock(req, res) {
   try{
-    const db = await connectDB();
-    const {codigo}= req.params;
-    const producto = await db.collection('productos').findOne({codigo});
+    let db = await connectDB();
+    let {codigo}= req.params;
+    let producto = await db.collection('productos').findOne({codigo});
     if(!producto){
       return res.status(404).json({error:'Producto no encontrado'});
     }
@@ -39,8 +39,8 @@ export async function consultarStock(req, res) {
 //
 export async function productosStockBajo(req, res) {
   try{
-    const db = await connectDB();
-    const productos = await db.collection('productos').find({
+    let db = await connectDB();
+    let productos = await db.collection('productos').find({
       $expr:{$lt:["$stockActual", "$stockMinimo"]}
     }).toArray();
     res.json(productos);
