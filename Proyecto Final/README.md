@@ -85,7 +85,7 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
 - **Node.js** + **Express**
 - **MongoDB** (sin ORM, usando mongodb nativo)
 - Lenguaje: **JavaScript**
-- Interface: **API REST** (accesible por Postman o navegador)
+- Interface: **API REST** (accesible por Postman)
 
 ---
 
@@ -167,7 +167,7 @@ Los datos de prueba se insertan automáticamente si la base `"Tienda"` no existe
 
 ---
 
-## Probar endpoints (con Postman o navegador)
+## Probar endpoints (con Postman)
 
 ### Agregar producto  
 `POST http://localhost:3000/api/productos`  
@@ -184,21 +184,27 @@ Body (JSON):
   "fechaUltimaActualizacion": "2025-07-20T00:00:00Z"
 }
 ```
-
+![Captura de carga de un producto](src/utils/img/02_POST_API-PRODUCTOS_OK.png)
 ---
 
 ### Consultar todos los productos  
 `GET http://localhost:3000/api/productos`
+
+![Captura de consulta de todos los productos](src/utils//img/01_GET_API-PRODUCTOS.png)
 
 ---
 
 ### Consultar stock por código  
 `GET http://localhost:3000/api/productos/stock/PROD001`
 
+![Captura de consulta de stock por código](src/utils//img/03_GET_API-PRODUCTO_STOCK_POR_CODIGO.png)
+
 ---
 
 ### Ver productos con stock bajo  
 `GET http://localhost:3000/api/productos/stock/bajo`
+
+![Captura de consulta de productos con stock bajo](src/utils//img/04_GET_API-PRODUCTO_STOCK_BAJO.png)
 
 ---
 
@@ -215,10 +221,12 @@ Body:
 }
 ```
 
+![Captura de registro de movimiento](src/utils//img/05_POST_API-MOVIMIENTOS_REGISTRADO.png)
 ---
 
 ### Reporte de movimientos  
-`GET http://localhost:3000/api/movimientos/reporte?fechaInicio=2024-06-01&fechaFin=2025-07-31`
+`GET http://localhost:3000/api/movimientos/reporte?fechaInicio=2024-06-01&fechaFin=2024-06-01`
+
+![Captura de consulta de movimientos](src/utils//img/06_GET_API-MOVIMIENTOS.png)
 
 ---
-
