@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import productosRoutes from './routes/productosRoutes.js';
+import movimientosRoutes from './routes/movimientosRoutes.js';
 import { poblarDB } from './db/seed/seed.js';
 
 dotenv.config();
@@ -9,6 +10,7 @@ const app = express();
 app.use(express.json());
 
 app.use('/api/productos', productosRoutes);
+app.use('/api/movimientos', movimientosRoutes);
 
 const PORT = process.env.PORT || 3000;
 
