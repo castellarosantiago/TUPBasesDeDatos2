@@ -1,0 +1,35 @@
+use ('tiendaOnline');
+
+db.ventas.aggregate([
+    {
+        //Agrupar las ventas por mes y calcular el total vendido en cada mes.
+        $group: {
+            _id: {
+                $dateToString: { format: "%Y-%m", date: "$fecha" }
+            },
+            totalVendido: { $sum: { $multiply: ["$cantidad", "$precio_unitario"] } }
+        }
+
+    },
+    {
+        //Encontrar el día de la semana con más ventas.
+        $group: {
+            _id: { $dayOfWeek: "$fecha" },
+            totalVendidoPorDia: { $sum: "$totalVendido" }
+        }
+    },
+    {
+        //Ordenar los resultados por el total vendido en orden descendente.
+        $sort: { totalVendidoPorDia: -1 }
+    },
+    {
+        //Proyectar el resultado final.
+        $project: {
+            _id: 0,
+            diaDeLaSemana: "$_id",
+            totalVendidoPorDia: 1
+        }
+    },
+])
+
+//REVISAR

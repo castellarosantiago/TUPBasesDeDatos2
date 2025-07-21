@@ -1,0 +1,85 @@
+{
+    "proveedores": [
+      {
+        "nombre": "Distribuidora Tech",
+        "contacto": "Juan López",
+        "telefono": "+1234567890",
+        "email": "ventas@distritech.com",
+        "productosOfrecidos": ["PROD001", "PROD002"]
+      },
+      {
+        "nombre": "Electro Mundial",
+        "contacto": "María García",
+        "telefono": "+0987654321",
+        "email": "contacto@electromundial.com",
+        "productosOfrecidos": ["PROD003"]
+      }
+    ],
+    "productos": [
+      {
+        "codigo": "PROD001",
+        "nombre": "Laptop HP",
+        "categoria": "Electrónicos",
+        "precio": 799.99,
+        "stockActual": 15,
+        "stockMinimo": 5,
+        "proveedorNombre": "Distribuidora Tech",
+        "fechaUltimaActualizacion": "2024-06-01T00:00:00Z"
+      },
+      {
+        "codigo": "PROD002",
+        "nombre": "Mouse inalámbrico Logitech",
+        "categoria": "Accesorios",
+        "precio": 25.5,
+        "stockActual": 50,
+        "stockMinimo": 10,
+        "proveedorNombre": "Distribuidora Tech",
+        "fechaUltimaActualizacion": "2024-06-15T00:00:00Z"
+      },
+      {
+        "codigo": "PROD003",
+        "nombre": "Monitor LED Samsung 24\"",
+        "categoria": "Electrónicos",
+        "precio": 189.99,
+        "stockActual": 20,
+        "stockMinimo": 7,
+        "proveedorNombre": "Electro Mundial",
+        "fechaUltimaActualizacion": "2024-07-01T00:00:00Z"
+      }
+    ],
+    "movimientos": [
+      {
+        "codigoProducto": "PROD001",
+        "tipo": "entrada",
+        "cantidad": 10,
+        "motivo": "Compra a proveedor",
+        "fecha": "2024-06-01T00:00:00Z",
+        "usuario": "admin"
+      },
+      {
+        "codigoProducto": "PROD002",
+        "tipo": "salida",
+        "cantidad": 5,
+        "motivo": "Venta",
+        "fecha": "2024-07-01T12:00:00Z",
+        "usuario": "vendedor1"
+      },
+      {
+        "codigoProducto": "PROD003",
+        "tipo": "entrada",
+        "cantidad": 20,
+        "motivo": "Ingreso inicial",
+        "fecha": "2024-07-10T09:30:00Z",
+        "usuario": "admin"
+      },
+      {
+        "codigoProducto": "PROD003",
+        "tipo": "salida",
+        "cantidad": 2,
+        "motivo": "Reemplazo por garantía",
+        "fecha": "2024-07-15T10:15:00Z",
+        "usuario": "tecnico"
+      }
+    ]
+  }
+  
