@@ -7,10 +7,8 @@ export async function registrarMovimiento(req, res) {
         let db = await connectDB();
         let {productoId, tipo, cantidad, motivo, usuario} = req.body;
 
-        console.log("ProductoId recibido:", productoId);
-
         let productosColumna = db.collection('productos');
-        let producto = await productosColumna.findOne({_id:new ObjectId(productoId)});
+        let producto = await productosColumna.findOne({_id: new ObjectId(productoId)});
         if(!producto) return res.status(404).json({error: 'Producto no encontrado'});
 
         let nuevoStock = producto.stockActual;
@@ -60,3 +58,5 @@ export async function reporteMovimientos(req, res) {
         res.status(500).json({ error: 'Error al obtener los movimientos' });    
     }
 }
+
+

@@ -1,26 +1,30 @@
-# Mini Proyecto con MongoDB - JavaScript y Python  
-## Proyecto 4: Sistema de Inventario de Tienda  
+# Mini Proyecto con MongoDB - JavaScript y Python
+
+## Proyecto 4: Sistema de Inventario de Tienda
+
 **Dificultad**: ⭐⭐⭐
 
 ---
 
-## 📄 Descripción  
+## 📄 Descripción
+
 Sistema de gestión de inventario para una tienda que maneja productos, proveedores y movimientos de stock.
 
 ---
 
 ## ✅ Requerimientos
 
-- Catálogo de productos con stock actual  
-- Registro de proveedores y sus productos  
-- Movimientos de entrada y salida de mercancía  
-- Alertas de stock bajo  
+- Catálogo de productos con stock actual
+- Registro de proveedores y sus productos
+- Movimientos de entrada y salida de mercancía
+- Alertas de stock bajo
 
 ---
 
 ## 🗂️ Estructura de Datos
 
 ### 📦 Colección: `productos`
+
 ```js
 {
   _id: ObjectId,
@@ -34,7 +38,9 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
   fechaUltimaActualizacion: ISODate
 }
 ```
+
 ### 🔁 Colección: movimientos
+
 ```js
 {
   _id: ObjectId,
@@ -46,7 +52,9 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
   usuario: "admin"
 }
 ```
+
 ### 🧾 Colección: proveedores
+
 ```js
 {
   _id: ObjectId,
@@ -60,15 +68,15 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
 
 ### 🧠 Funciones a Implementar
 
-**1 -** ```agregarProducto(producto)``` - Añadir producto al catálogo.
+**1 -** `agregarProducto(producto)` - Añadir producto al catálogo.
 
-**2 -** ```registrarMovimiento(movimiento)``` - Registrar entrada o salida de stock.
+**2 -** `registrarMovimiento(movimiento)` - Registrar entrada o salida de stock.
 
-**3 -** ```consultarStock(codigo)``` - Ver stock actual de un producto por su código.
+**3 -** `consultarStock(codigo)` - Ver stock actual de un producto por su código.
 
-**4 -** ```productosStockBajo()``` - Listar productos con stock por debajo del mínimo.
+**4 -** `productosStockBajo()` - Listar productos con stock por debajo del mínimo.
 
-**5 -** ```reporteMovimientos(fechaInicio, fechaFin)``` - Reporte de movimientos en un período determinado.
+**5 -** `reporteMovimientos(fechaInicio, fechaFin)` - Reporte de movimientos en un período determinado.
 
 ## CONDICIONES
 
@@ -80,7 +88,4 @@ La interface de uso puede ser la consola (o terminal), una app web o una API. Cu
 
 La fecha final para la entrega es el **22 de julio a las 23:59**.
 
-*NOTA*: Si se opta por desarrollar un proyecto que no esté incluido en la lista de proyectos elegibles, se debe enviar la propuesta de proyecto hasta el martes 8 de julio por email.
-
-
-
+_NOTA_: Si se opta por desarrollar un proyecto que no esté incluido en la lista de proyectos elegibles, se debe enviar la propuesta de proyecto hasta el martes 8 de julio por email.

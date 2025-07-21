@@ -8,6 +8,4 @@ router.get('/', listarProductos);
 router.get('/stock/bajo', productosStockBajo);
 router.get('/stock/:codigo', consultarStock);
 
-
-
 export default router;

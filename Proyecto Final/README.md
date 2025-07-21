@@ -1,33 +1,37 @@
-
-# PROYECTO FINAL - BASE DE DATOS II 
+# PROYECTO FINAL - BASE DE DATOS II
 
 ### GRUPO 6 - Integrantes:
 
-- Juarez Acherielli Franco  
-- Castellaro Santiago  
-- Canclini Lucía  
+- Juarez Acherielli Franco
+- Castellaro Santiago
+- Canclini Lucía
 - Alvarez Balboa Rodrigo
+
 ---
+
 ---
+
 ## Proyecto seleccionado: Proyecto 4 - SISTEMA DE INVENTARIO DE TIENDA
 
-## Descripción  
+## Descripción
+
 Sistema de gestión de inventario para una tienda que maneja productos, proveedores y movimientos de stock.
 
 ---
 
 ## Requerimientos
 
-- Catálogo de productos con stock actual  
-- Registro de proveedores y sus productos  
-- Movimientos de entrada y salida de mercancía  
-- Alertas de stock bajo  
+- Catálogo de productos con stock actual
+- Registro de proveedores y sus productos
+- Movimientos de entrada y salida de mercancía
+- Alertas de stock bajo
 
 ---
 
 ## Estructura de Datos
 
 ### Colección: `productos`
+
 ```js
 {
   _id: ObjectId,
@@ -41,7 +45,9 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
   fechaUltimaActualizacion: ISODate
 }
 ```
+
 ### Colección: `movimientos`
+
 ```js
 {
   _id: ObjectId,
@@ -53,7 +59,9 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
   usuario: "admin"
 }
 ```
+
 ### Colección: `proveedores`
+
 ```js
 {
   _id: ObjectId,
@@ -67,25 +75,24 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
 
 ### Funciones a Implementar
 
-**1 -** ```agregarProducto(producto)``` - Añadir producto al catálogo.
+**1 -** `agregarProducto(producto)` - Añadir producto al catálogo.
 
-**2 -** ```registrarMovimiento(movimiento)``` - Registrar entrada o salida de stock.
+**2 -** `registrarMovimiento(movimiento)` - Registrar entrada o salida de stock.
 
-**3 -** ```consultarStock(codigo)``` - Ver stock actual de un producto por su código.
+**3 -** `consultarStock(codigo)` - Ver stock actual de un producto por su código.
 
-**4 -** ```productosStockBajo()``` - Listar productos con stock por debajo del mínimo.
+**4 -** `productosStockBajo()` - Listar productos con stock por debajo del mínimo.
 
-**5 -** ```reporteMovimientos(fechaInicio, fechaFin)``` - Reporte de movimientos en un período determinado.
+**5 -** `reporteMovimientos(fechaInicio, fechaFin)` - Reporte de movimientos en un período determinado.
 
 ---
-
 
 ### Tecnologías utilizadas
 
 - **Node.js** + **Express**
 - **MongoDB** (sin Mongoose, usando el driver nativo)
 - Lenguaje: **JavaScript**
-- Interface: **API REST** (accesible mediante **Postman** o desde la **consola** usando el comando `curl` para realizar las peticiones HTTP desde la terminal.)
+- Interface: **API REST** (accesible mediante **Postman** o desde la **consola** de Linux usando el comando `curl` para realizar las peticiones HTTP desde la terminal.)
 
 ---
 
@@ -97,7 +104,6 @@ Proyecto Final/
 │   ├── controllers/         # Lógica principal
 │   ├── db/                  # Conexión + seed
 │   │   └── seed/            # Datos de prueba
-│   ├── models/              # (Reservado, sin uso)
 │   ├── routes/              # Endpoints
 │   └── app.js               # Entrada principal
 ├── package.json
@@ -152,7 +158,7 @@ Asegurarse de tener corriendo el servidor de MongoDB localmente.
 ### 4. Iniciar la app
 
 ```bash
-node src/app.js
+npm run dev
 ```
 
 La consola debería mostrar:
@@ -167,15 +173,20 @@ Los datos de prueba se insertan automáticamente si la base `"Tienda"` no existe
 
 ---
 
-## Probar endpoints (con Postman)
+## Probar endpoints
 
-### Agregar producto  
-`POST` 
->En Postman:
+### Agregar producto
+
+`POST`
+
+> En Postman:
+
 ```http
 http://localhost:3000/api/productos
 ```
+
 Body (JSON):
+
 ```json
 {
   "codigo": "PROD004",
@@ -188,9 +199,11 @@ Body (JSON):
   "fechaUltimaActualizacion": "2025-07-20T00:00:00Z"
 }
 ```
+
 ![Captura de carga de un producto](src/utils/img/02_POST_API-PRODUCTOS_OK.png)
 
->En consola linux:
+> En consola linux:
+
 ```bash
 curl -X POST http://localhost:3000/api/productos \
 -H "Content-Type: application/json" \
@@ -205,57 +218,81 @@ curl -X POST http://localhost:3000/api/productos \
   "fechaUltimaActualizacion": "2025-07-20T00:00:00Z"
 }'
 ```
+
 ---
 
-### Consultar todos los productos  
+### Consultar todos los productos
+
 `GET`
->En Postman:
-```http 
+
+> En Postman:
+
+```http
 http://localhost:3000/api/productos
 ```
+
 ![Captura de consulta de todos los productos](src/utils//img/01_GET_API-PRODUCTOS.png)
 
->En consola linux:
+> En consola linux:
+
 ```bash
 curl http://localhost:3000/api/productos
 ```
+
 ---
 
-### Consultar stock por código  
+### Consultar stock por código
+
 `GET`
->En Postman:
-```http 
+
+> En Postman:
+
+```http
 http://localhost:3000/api/productos/stock/PROD001
 ```
+
 ![Captura de consulta de stock por código](src/utils//img/03_GET_API-PRODUCTO_STOCK_POR_CODIGO.png)
 
->En consola linux:
+> En consola linux:
+
 ```bash
 curl http://localhost:3000/api/productos/stock/PROD001
 ```
+
 ---
 
-### Ver productos con stock bajo  
+### Ver productos con stock bajo
+
 `GET`
->En Postman:
-```http 
+
+> En Postman:
+
+```http
 http://localhost:3000/api/productos/stock/bajo
 ```
+
 ![Captura de consulta de productos con stock bajo](src/utils//img/04_GET_API-PRODUCTO_STOCK_BAJO.png)
 
->En consola linux:
+> En consola linux:
+
 ```bash
 curl http://localhost:3000/api/productos/stock/bajo
 ```
+
 ---
 
-### Registrar movimiento  
+### Registrar movimiento
+
 `POST`
->En Postman:
+
+> En Postman:
+
 ```http
  http://localhost:3000/api/movimientos
- ```  
+```
+
 Body (JSON):
+
 ```json
 {
   "productoId": "ID DEL PRODUCTO A MODIFICAR", //recordar que estos id en la base de datos se generan aleatoriamente
@@ -265,9 +302,11 @@ Body (JSON):
   "usuario": "admin"
 }
 ```
+
 ![Captura de registro de movimiento](src/utils//img/05_POST_API-MOVIMIENTOS_REGISTRADO.png)
 
->En consola linux:
+> En consola linux:
+
 ```bash
 curl -X POST http://localhost:3000/api/movimientos \
 -H "Content-Type: application/json" \
@@ -279,18 +318,25 @@ curl -X POST http://localhost:3000/api/movimientos \
   "usuario": "admin"
 }'
 ```
+
 ---
 
-### Reporte de movimientos  
+### Reporte de movimientos
+
 `GET`
->En Postman:
+
+> En Postman:
+
 ```http
  http://localhost:3000/api/movimientos/reporte?fechaInicio=2024-06-01&fechaFin=2024-06-01
- ```
+```
+
 ![Captura de consulta de movimientos](src/utils//img/06_GET_API-MOVIMIENTOS.png)
 
->En consola linux:
+> En consola linux:
+
 ```bash
 curl 'http://localhost:3000/api/movimientos/reporte?fechaInicio=2024-06-01&fechaFin=2024-06-01'
 ```
+
 ---
