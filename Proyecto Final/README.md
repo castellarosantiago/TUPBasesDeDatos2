@@ -171,6 +171,7 @@ Los datos de prueba se insertan automáticamente si la base `"Tienda"` no existe
 
 ### Agregar producto  
 `POST` 
+>En Postman:
 ```http
 http://localhost:3000/api/productos
 ```
@@ -188,44 +189,76 @@ Body (JSON):
 }
 ```
 ![Captura de carga de un producto](src/utils/img/02_POST_API-PRODUCTOS_OK.png)
+
+>En consola linux:
+```bash
+curl -X POST http://localhost:3000/api/productos \
+-H "Content-Type: application/json" \
+-d '{
+  "codigo": "PROD004",
+  "nombre": "Teclado Inalámbrico Logitech",
+  "categoria": "Accesorios",
+  "precio": 45.0,
+  "stockActual": 9,
+  "stockMinimo": 10,
+  "proveedorId": "687e4e128d6c3211c0058be1",
+  "fechaUltimaActualizacion": "2025-07-20T00:00:00Z"
+}'
+```
 ---
 
 ### Consultar todos los productos  
 `GET`
+>En Postman:
 ```http 
 http://localhost:3000/api/productos
 ```
 ![Captura de consulta de todos los productos](src/utils//img/01_GET_API-PRODUCTOS.png)
 
+>En consola linux:
+```bash
+curl http://localhost:3000/api/productos
+```
 ---
 
 ### Consultar stock por código  
 `GET`
+>En Postman:
 ```http 
 http://localhost:3000/api/productos/stock/PROD001
 ```
 ![Captura de consulta de stock por código](src/utils//img/03_GET_API-PRODUCTO_STOCK_POR_CODIGO.png)
 
+>En consola linux:
+```bash
+curl http://localhost:3000/api/productos/stock/PROD001
+```
 ---
 
 ### Ver productos con stock bajo  
 `GET`
+>En Postman:
 ```http 
 http://localhost:3000/api/productos/stock/bajo
 ```
 ![Captura de consulta de productos con stock bajo](src/utils//img/04_GET_API-PRODUCTO_STOCK_BAJO.png)
 
+>En consola linux:
+```bash
+curl http://localhost:3000/api/productos/stock/bajo
+```
 ---
 
 ### Registrar movimiento  
 `POST`
+>En Postman:
 ```http
  http://localhost:3000/api/movimientos
  ```  
 Body (JSON):
 ```json
 {
-  "productoId": "687e4e128d6c3211c0058be4",
+  "productoId": "ID DEL PRODUCTO A MODIFICAR", //recordar que estos id en la base de datos se generan aleatoriamente
   "tipo": "salida",
   "cantidad": 2,
   "motivo": "Venta",
@@ -233,13 +266,31 @@ Body (JSON):
 }
 ```
 ![Captura de registro de movimiento](src/utils//img/05_POST_API-MOVIMIENTOS_REGISTRADO.png)
+
+>En consola linux:
+```bash
+curl -X POST http://localhost:3000/api/movimientos \
+-H "Content-Type: application/json" \
+-d '{
+  "productoId": "ID DEL PRODUCTO A MODIFICAR",
+  "tipo": "salida",
+  "cantidad": 2,
+  "motivo": "Venta",
+  "usuario": "admin"
+}'
+```
 ---
 
 ### Reporte de movimientos  
 `GET`
+>En Postman:
 ```http
  http://localhost:3000/api/movimientos/reporte?fechaInicio=2024-06-01&fechaFin=2024-06-01
  ```
 ![Captura de consulta de movimientos](src/utils//img/06_GET_API-MOVIMIENTOS.png)
 
+>En consola linux:
+```bash
+curl 'http://localhost:3000/api/movimientos/reporte?fechaInicio=2024-06-01&fechaFin=2024-06-01'
+```
 ---
