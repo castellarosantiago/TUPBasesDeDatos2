@@ -5,8 +5,9 @@ const router = Router();
 
 router.post('/', agregarProducto);
 router.get('/', listarProductos); 
-router.get('/stock/:codigo', consultarStock);
 router.get('/stock/bajo', productosStockBajo);
+router.get('/stock/:codigo', consultarStock);
+
 
 
 export default router;
