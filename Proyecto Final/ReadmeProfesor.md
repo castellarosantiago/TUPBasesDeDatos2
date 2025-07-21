@@ -45,7 +45,7 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
 {
   _id: ObjectId,
   productoId: ObjectId,
-  tipo: "entrada", // "Entrada" o "Salida"
+  tipo: "entrada", // "entrada" o "salida"
   cantidad: 10,
   motivo: "Compra a proveedor",
   fecha: ISODate,
