@@ -170,7 +170,10 @@ Los datos de prueba se insertan automáticamente si la base `"Tienda"` no existe
 ## Probar endpoints (con Postman)
 
 ### Agregar producto  
-`POST http://localhost:3000/api/productos`  
+`POST` 
+```http
+http://localhost:3000/api/productos
+```
 Body (JSON):
 ```json
 {
@@ -188,29 +191,38 @@ Body (JSON):
 ---
 
 ### Consultar todos los productos  
-`GET http://localhost:3000/api/productos`
-
+`GET`
+```http 
+http://localhost:3000/api/productos
+```
 ![Captura de consulta de todos los productos](src/utils//img/01_GET_API-PRODUCTOS.png)
 
 ---
 
 ### Consultar stock por código  
-`GET http://localhost:3000/api/productos/stock/PROD001`
-
+`GET`
+```http 
+http://localhost:3000/api/productos/stock/PROD001
+```
 ![Captura de consulta de stock por código](src/utils//img/03_GET_API-PRODUCTO_STOCK_POR_CODIGO.png)
 
 ---
 
 ### Ver productos con stock bajo  
-`GET http://localhost:3000/api/productos/stock/bajo`
-
+`GET`
+```http 
+http://localhost:3000/api/productos/stock/bajo
+```
 ![Captura de consulta de productos con stock bajo](src/utils//img/04_GET_API-PRODUCTO_STOCK_BAJO.png)
 
 ---
 
 ### Registrar movimiento  
-`POST http://localhost:3000/api/movimientos`  
-Body:
+`POST`
+```http
+ http://localhost:3000/api/movimientos
+ ```  
+Body (JSON):
 ```json
 {
   "productoId": "687e4e128d6c3211c0058be4",
@@ -220,13 +232,14 @@ Body:
   "usuario": "admin"
 }
 ```
-
 ![Captura de registro de movimiento](src/utils//img/05_POST_API-MOVIMIENTOS_REGISTRADO.png)
 ---
 
 ### Reporte de movimientos  
-`GET http://localhost:3000/api/movimientos/reporte?fechaInicio=2024-06-01&fechaFin=2024-06-01`
-
+`GET`
+```http
+ http://localhost:3000/api/movimientos/reporte?fechaInicio=2024-06-01&fechaFin=2024-06-01
+ ```
 ![Captura de consulta de movimientos](src/utils//img/06_GET_API-MOVIMIENTOS.png)
 
 ---
