@@ -72,7 +72,7 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
 
 ## CONDICIONES
 
-La entrega del proyecto final consiste en subir un archivo de texto con la dirección del repositorio donde estén los archvos del código fuente. **En el README.md se deben incluir los integrantes del grupo** que hace la entrega.
+La entrega del proyecto final consiste en subir un archivo de texto con la dirección del repositorio donde estén los archivos del código fuente. **En el README.md se deben incluir los integrantes del grupo** que hace la entrega.
 
 Se debe elegir alguno **(solo uno)** de los proyectos del documento de los proyectos elegibles. En el README.md se debe aclarar cuál de los proyectos es el que se implementó. Se admite el uso de Python con PyMongo o de Node.js (Javascript) con Mongoose. En el README.md se debe aclarar también esta elección.
 

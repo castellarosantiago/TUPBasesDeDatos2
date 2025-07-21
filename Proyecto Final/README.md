@@ -83,9 +83,9 @@ Sistema de gestión de inventario para una tienda que maneja productos, proveedo
 ### Tecnologías utilizadas
 
 - **Node.js** + **Express**
-- **MongoDB** (sin ORM, usando mongodb nativo)
+- **MongoDB** (sin Mongoose, usando el driver nativo)
 - Lenguaje: **JavaScript**
-- Interface: **API REST** (accesible por Postman)
+- Interface: **API REST** (accesible mediante **Postman** o desde la **consola** usando el comando `curl` para realizar las peticiones HTTP desde la terminal.)
 
 ---
 
