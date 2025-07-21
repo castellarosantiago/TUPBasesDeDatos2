@@ -10,5 +10,5 @@ export default async function connectDB() {
     await client.connect();
     console.log('MongoDB conectado');
   }
-  return client.db();
+  return client.db("Tienda");
 }

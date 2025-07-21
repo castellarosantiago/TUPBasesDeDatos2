@@ -1,4 +1,9 @@
-use tiendaOnline;
+use ('tiendaOnline');
+db.createCollection("productos");
+db.createCollection("ventas");
+
+db.productos.deleteMany({});
+db.ventas.deleteMany({});
 
 db.productos.insertMany([
     {
@@ -314,6 +319,3 @@ db.productos.insertMany([
       metodo_pago: "PayPal"
     }
   ]);
-
-
-  

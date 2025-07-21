@@ -1,3 +1,23 @@
-// Problema 2:
-// Crear un pipeline que obtenga las ventas totales por mes, indicando también 
-// el producto más vendido de cada mes.
+use ('tiendaOnline');
+db.productos.aggregate([
+    {
+        $group: {
+            _id: "$categoria",
+            precioPromedio: { $avg: "$precio" },
+            precioMaximo: { $max: "$precio" },
+            precioMinimo: { $min: "$precio" },
+        }
+    },
+])
+
+db.ventas.aggregate([
+    {
+        //Obtener el total de ventas por país del cliente, incluyendo la cantidad de transacciones y el monto total.
+        $group : {
+            _id: "$cliente.pais",
+            cantidadTransacciones: {$sum: 1},
+            totalVentas: {$sum: "$cantidad"},
+            montoTotal: {$sum: {$multiply: ["$cantidad", "$precio_unitario"]}},
+        }
+    },
+])
